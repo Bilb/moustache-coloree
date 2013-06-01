@@ -11,3 +11,11 @@
 *.lai
 *.la
 *.a
+
+*.d
+
+*.mk
+
+Debug/moustache-coloree
+
+Debug/makefile
