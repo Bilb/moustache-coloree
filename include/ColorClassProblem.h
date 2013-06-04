@@ -16,11 +16,11 @@
 
 using namespace std;
 
-
 class ColorClassProblem {
 private:
 	list<ColorClass> colorClasses;
-	map<int,int> row; //map finalement ici : clé = sommet
+	map<int,int> row;
+	int nbSommets;
 public:
 	ColorClassProblem();
 	virtual ~ColorClassProblem();
