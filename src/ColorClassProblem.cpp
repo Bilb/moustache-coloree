@@ -16,3 +16,11 @@ ColorClassProblem::~ColorClassProblem() {
 	// TODO Auto-generated destructor stub
 }
 
+void ColorClassProblem::resolve(string charpente) {
+	buildProblem(charpente);
+
+}
+
+void ColorClassProblem::buildProblem(string charpente) {
+
+}

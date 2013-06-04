@@ -19,9 +19,12 @@ using namespace std;
 class ColorClassProblem {
 private:
 	list<ColorClass> colorClasses;
+	list<int> row; //map finalement ici : clé = sommet
 public:
 	ColorClassProblem();
 	virtual ~ColorClassProblem();
+	void resolve(string charpente);
+	void buildProblem(string charpente);
 };
 
 #endif /* COLORCLASSPROBLEM_H_ */

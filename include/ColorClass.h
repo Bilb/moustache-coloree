@@ -17,7 +17,7 @@ struct contrainte{
 
 class ColorClass {
 private:
-	contrainte contraintes;
+	contrainte* contraintes;
 public:
 	ColorClass();
 	virtual ~ColorClass();
