@@ -7,11 +7,18 @@
 
 #include <iostream>
 
+
+#include "include/ColorClass.h"
+#include "include/ColorClassProblem.h"
+#include "include/Etage.h"
+#include "include/Contrainte.h"
+
 using namespace std;
 
 int main(int argc, char* argv[]) {
-	cout << "Hello World" << endl;
+	ColorClass colorClass(3);
 
+	cout << "colorClass " << colorClass << endl;
 	return 0;
 }
 

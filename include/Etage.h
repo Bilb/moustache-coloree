@@ -9,15 +9,39 @@
 #define ETAGE_H_
 
 #include <list>
+#include <iostream>
 #include <boost/dynamic_bitset.hpp>
+
+using namespace std;
 
 class Etage {
 private:
-	bool useLinkList;
-	std::list<int> listColor;
+	unsigned int nbSommet;
 	boost::dynamic_bitset<> bitsetColor;
+	std::list<int> listColor;
+
 public:
-	Etage();
+	Etage(unsigned int nbSommet);
+
+	std::list<int> getListColor() { return listColor;}
+	boost::dynamic_bitset<> getBitsetColor() { return bitsetColor;}
+
+
+	/**
+	 * Met à true l'indice correspondant au sommet indice -1
+	 * Note : on commence les indices à 0!
+	 */
+	void set(unsigned int indice);
+
+	/**
+	 * Met à false l'indice correspondant au sommet indice -1
+	 * Note : on commence les indices à 0!
+	 */
+	void reset(unsigned int indice);
+
+	friend ostream& operator<<(ostream& out , const Etage& etage );
+
+
 	virtual ~Etage();
 };
 

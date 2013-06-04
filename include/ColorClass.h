@@ -12,12 +12,24 @@
 #include "../include/Contrainte.h"
 
 
+#include <iostream>
+
+
+using namespace std;
+
 
 class ColorClass {
 private:
-	Contrainte contraintes;
+	Contrainte* contraintes;
+	unsigned int nbSommet;
+
 public:
-	ColorClass();
+	ColorClass(unsigned int nbSommet);
+	ColorClass(unsigned int nbSommet, ColorClass& src, unsigned int search, unsigned int replace);
+
+
+	friend ostream& operator<<(ostream& out , const ColorClass& colorClass );
+
 	virtual ~ColorClass();
 };
 
