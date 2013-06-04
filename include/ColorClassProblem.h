@@ -9,6 +9,7 @@
 #define COLORCLASSPROBLEM_H_
 
 #include <list>
+#include <map>
 
 #include "ColorClass.h"
 
@@ -19,7 +20,7 @@ using namespace std;
 class ColorClassProblem {
 private:
 	list<ColorClass> colorClasses;
-	list<int> row; //map finalement ici : clé = sommet
+	map<int> row; //map finalement ici : clé = sommet
 public:
 	ColorClassProblem();
 	virtual ~ColorClassProblem();
