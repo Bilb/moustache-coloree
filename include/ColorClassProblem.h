@@ -20,7 +20,7 @@ using namespace std;
 class ColorClassProblem {
 private:
 	list<ColorClass> colorClasses;
-	map<int> row; //map finalement ici : clé = sommet
+	map<int,int> row; //map finalement ici : clé = sommet
 public:
 	ColorClassProblem();
 	virtual ~ColorClassProblem();
