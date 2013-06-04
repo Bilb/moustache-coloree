@@ -9,15 +9,13 @@
 #define COLORCLASS_H_
 
 #include "Etage.h"
+#include "../include/Contrainte.h"
 
-struct contrainte{
-	Etage etage1;
-	Etage etage2;
-};
+
 
 class ColorClass {
 private:
-	contrainte contraintes;
+	Contrainte contraintes;
 public:
 	ColorClass();
 	virtual ~ColorClass();
