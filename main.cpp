@@ -18,6 +18,7 @@ using namespace std;
 int main(int argc, char* argv[]) {
 	ColorClass colorClass(3);
 
+
 	cout << "colorClass " << colorClass << endl;
 	return 0;
 }

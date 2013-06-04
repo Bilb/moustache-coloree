@@ -11,12 +11,10 @@
 #include "Etage.h"
 #include "../include/Contrainte.h"
 
-
 #include <iostream>
 
 
 using namespace std;
-
 
 class ColorClass {
 private:
