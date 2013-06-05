@@ -43,9 +43,9 @@ void ColorClassProblem::resolve(string charpente) {
 	Maillon<ColorClass*>* currentColorClassMaillon = ColorClassProblem::colorClasses.begin();
 	Maillon<int>* currentEtage1ListColorMaillon;
 	Maillon<int>* currentEtage2ListColorMaillon;
-	ColorClass currentColorClass = currentColorClassMaillon->getObject();
-	Etage etage1;
-	Etage etage2;
+	ColorClass* currentColorClass = currentColorClassMaillon->getObject();
+	Etage* etage1;
+	Etage* etage2;
 
 	buildProblem(charpente);
 
@@ -55,23 +55,23 @@ void ColorClassProblem::resolve(string charpente) {
 
 		while(loop < nbSommets) {
 			mustRestart = false;
-			Contrainte currentConstraint = currentColorClass[loop];
+			Contrainte* currentConstraint = currentColorClass[loop].getContraintes();
 
-			if(currentConstraint.getEtage2() != NULL) {
-				etage2 = currentConstraint.getEtage2();
-				currentEtage2ListColorMaillon = etage2.getListColor().begin();
+			if(currentConstraint->getEtage2() != NULL) {
+				etage2 = currentConstraint->getEtage2();
+				currentEtage2ListColorMaillon = etage2->getListColor().begin();
 
 				// TODO : Traiter le dernier !!!
 				while(currentEtage2ListColorMaillon->getNext() != NULL) {
 					ambiguous = false;
 
-					if(currentConstraint.getEtage1() != NULL) {
-						etage1 = currentConstraint.getEtage1();
-						currentEtage1ListColorMaillon = etage1.getListColor().begin();
+					if(currentConstraint->getEtage1() != NULL) {
+						etage1 = currentConstraint->getEtage1();
+						currentEtage1ListColorMaillon = etage1->getListColor().begin();
 
 						// TODO : Traiter le dernier !!!
 						while(currentEtage1ListColorMaillon->getNext() != NULL) {
-							if(!isDifferent(currentColorClass, currentEtage1ListColorMaillon->getObject(),currentEtage2ListColorMaillon->getObject())) {
+							if(!isDifferent(*currentColorClass, currentEtage1ListColorMaillon->getObject(),currentEtage2ListColorMaillon->getObject())) {
 								newColorClass = createNewColorClass(nbSommet, &currentColorClass, row[loop], currentEtage2ListColorMaillon->getObject());
 								colorClasses.insert(newColorClass, colorClassIndex);
 								ambiguous = true;
@@ -82,8 +82,8 @@ void ColorClassProblem::resolve(string charpente) {
 						}
 
 						if(!ambiguous) {
-							etage1.set(currentEtage2ListColorMaillon->getObject());
-							etage2.reset(currentEtage2ListColorMaillon->getObject());
+							etage1->set(currentEtage2ListColorMaillon->getObject());
+							etage2->reset(currentEtage2ListColorMaillon->getObject());
 						}
 					}
 
