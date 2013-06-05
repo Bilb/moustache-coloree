@@ -101,8 +101,8 @@ void ColorClassProblem::resolve(string charpente) {
 }
 
 bool ColorClassProblem::isDifferent(ColorClass & currentColorClass, unsigned int som1, unsigned int som2) {
-	unsigned int row1 = row[som1] - 1;
-	unsigned int row2 = row[som2] - 1;
+	unsigned int row1 = sommetToRow[som1] - 1;
+	unsigned int row2 = sommetToRow[som2] - 1;
 
 	assert (som1 < nbSommets);
 	assert (som2 < nbSommets);
@@ -110,32 +110,32 @@ bool ColorClassProblem::isDifferent(ColorClass & currentColorClass, unsigned int
 	assert (row2 < nbSommets);
 
 	if(row1 > row2) {
-		Etage* etage1 = currentColorClass.getContraintes()[som1].getEtage1();
-		Etage* etage2 = currentColorClass.getContraintes()[som1].getEtage2();
+		Etage* etage1 = currentColorClass.getContraintes()[row1].getEtage1();
+		Etage* etage2 = currentColorClass.getContraintes()[row1].getEtage2();
 
 		assert(etage1 != NULL);
 		assert(etage2 != NULL);
 
-		if(etage1->getBitsetColor()[row2] || etage2->getBitsetColor()[row2]) {
+		if(etage1->getBitsetColor()[som2] || etage2->getBitsetColor()[som2]) {
 			return true;
 		}
 		else{
-			etage2->set(row2);
+			etage2->set(som2);
 			return false;
 		}
 	}
 	else {
-		Etage* etage1 = currentColorClass.getContraintes()[som2].getEtage1();
-		Etage* etage2 = currentColorClass.getContraintes()[som2].getEtage2();
+		Etage* etage1 = currentColorClass.getContraintes()[row2].getEtage1();
+		Etage* etage2 = currentColorClass.getContraintes()[row2].getEtage2();
 
 		assert(etage1 != NULL);
 		assert(etage2 != NULL);
 
-		if(etage1->getBitsetColor()[row1] ||  etage2->getBitsetColor()[row1]) {
+		if(etage1->getBitsetColor()[som1] || etage2->getBitsetColor()[som1]) {
 			return true;
 		}
 		else{
-			etage2->set(row1);
+			etage2->set(som1);
 			return false;
 		}
 	}
@@ -147,13 +147,21 @@ void ColorClassProblem::buildProblem(string charpenteFile) {
 	/* actuellement c'est hardcodé ! */
 
 	nbSommets = 7;
-	row[0] = 1;
-	row[1] = 3;
-	row[2] = 4;
-	row[3] = 2;
-	row[4] = 6;
-	row[5] = 5;
-	row[6] = 7;
+	rowToSommet[0] = 1;
+	rowToSommet[1] = 3;
+	rowToSommet[2] = 4;
+	rowToSommet[3] = 2;
+	rowToSommet[4] = 6;
+	rowToSommet[5] = 5;
+	rowToSommet[6] = 7;
+
+	sommetToRow[1] = 0;
+	sommetToRow[3] = 1;
+	sommetToRow[4] = 2;
+	sommetToRow[2] = 3;
+	sommetToRow[6] = 4;
+	sommetToRow[5] = 5;
+	sommetToRow[7] = 6;
 
 
 	ColorClass* colorClasse = new ColorClass(nbSommets);
@@ -217,7 +225,12 @@ ostream& operator<<(ostream& out , const ColorClassProblem& problem ) {
 
 	/* affichage des rangs des sommets */
 	for(indiceContrainte = 0; indiceContrainte < problem.nbSommets ; ++indiceContrainte) {
-		out << "\trow[" << indiceContrainte << "] :" << problem.row.at(indiceContrainte) << endl;
+		out << "\trow[" << indiceContrainte << "] :" << problem.rowToSommet.at(indiceContrainte) << endl;
+	}
+
+	/* affichage des sommets vers les indexs */
+	for(indiceContrainte = 0; indiceContrainte < problem.nbSommets ; ++indiceContrainte) {
+		out << "\trow[" << indiceContrainte << "] :" << problem.sommetToRow.at(indiceContrainte) << endl;
 	}
 
 	/* affichage de toutes les contraintes */

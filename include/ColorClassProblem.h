@@ -20,7 +20,9 @@ using namespace std;
 class ColorClassProblem {
 private:
 	list<ColorClass*> colorClasses;
-	map<unsigned int, unsigned int> row;
+	map<unsigned int, unsigned int> rowToSommet;
+	map<unsigned int, unsigned int> sommetToRow;
+
 	unsigned int nbSommets;
 public:
 	ColorClassProblem(string& charpenteFile);

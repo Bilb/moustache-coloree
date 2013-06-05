@@ -31,14 +31,13 @@ ColorClass::~ColorClass() {
 
 
 
-ColorClass::ColorClass(unsigned int nbSommet_, ColorClass& src, unsigned int search, unsigned int replace)  :
+ColorClass::ColorClass(map<unsigned int, unsigned int> &rowToSommet, map<unsigned int, unsigned int> &sommetToRow, unsigned int nbSommet_, ColorClass& src, unsigned int search, unsigned int replace)  :
 						nbSommet(nbSommet_)
 {
 	contraintes = new Contrainte[nbSommet]();
 	unsigned int indice;
 	for(indice = 0; indice > nbSommet ; ++indice) {
-		//contraintes[indice].setByMagic(nbSommet,indice, src.contraintes[indice], search, replace);
-		//todo
+		contraintes[indice].setByMagic(rowToSommet, sommetToRow, nbSommet,indice, src.contraintes[indice], search, replace);
 	}
 }
 
