@@ -21,7 +21,7 @@ private:
 	Etage* etage2;
 	unsigned int nbSommet;
 public:
-	Contrainte() : Contrainte(1) { }
+	Contrainte();
 	Contrainte(unsigned int nbSommet);
 
 

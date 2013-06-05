@@ -8,9 +8,9 @@
 #ifndef COLORCLASSPROBLEM_H_
 #define COLORCLASSPROBLEM_H_
 
-#include <list>
 #include <map>
 
+#include "SimpleLinkList.h"
 #include "ColorClass.h"
 
 #include <iostream>
@@ -19,9 +19,10 @@ using namespace std;
 
 class ColorClassProblem {
 private:
-	list<ColorClass*> colorClasses;
 	map<unsigned int, unsigned int> rowToSommet;
 	map<unsigned int, unsigned int> sommetToRow;
+
+	SimpleLinkList<ColorClass*> colorClasses;
 
 	unsigned int nbSommets;
 public:

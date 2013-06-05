@@ -8,13 +8,15 @@
 #include "../include/ColorClassProblem.h"
 #include "../include/ColorClass.h"
 #include "../include/Contrainte.h"
+#include "../include/Maillon.h"
+#include "../include/SimpleLinkList.h"
 
 #include <assert.h>
 #include <string>
 
+
 #include <iostream>
 
-using namespace std;
 
 
 ColorClassProblem::ColorClassProblem(string& charpenteFile) {
@@ -35,58 +37,59 @@ ColorClassProblem::~ColorClassProblem() {
 
 
 void ColorClassProblem::resolve(string charpente) {
-	/*unsigned int colorClassIndex = 0;
+	unsigned int colorClassIndex = 0;
 	unsigned int loop = 0;
 	bool ambiguous;
 	bool mustRestart;
-	Maillon currentColorClassMaillon = ColorClassProblem::colorClasses.begin();
-	Maillon currentEtage1ListColorMaillon;
-	Maillon currentEtage2ListColorMaillon;
-	ColorClass currentColorClass = currentColorClassMaillon.colorClass;
-	Etage etage1;
-	Etage etage2;
+
+	Maillon<ColorClass*>* currentColorClassMaillon = ColorClassProblem::colorClasses.begin();
+	Maillon<int>* currentEtage1ListColorMaillon;
+	Maillon<int>* currentEtage2ListColorMaillon;
+	ColorClass* currentColorClass = currentColorClassMaillon->getObject();
+	Etage* etage1;
+	Etage* etage2;
 
 	buildProblem(charpente);
 
-	// TODO : Faire un DO WHILE pour le premier !!! Et un IF avant
-	while(currentColorClassMaillon.next() != NULL) {
-		currentColorClass = currentColorClassMaillon.getObject();
+	// TODO : Traiter le dernier !!!
+	while(currentColorClassMaillon->getNext() != NULL) {
+		currentColorClass = currentColorClassMaillon->getObject();
 
 		while(loop < nbSommets) {
 			mustRestart = false;
-			Contrainte currentConstraint = currentColorClass[loop];
+			Contrainte currentConstraint = currentColorClass->getContraintes()[loop];
 
 			if(currentConstraint.getEtage2() != NULL) {
 				etage2 = currentConstraint.getEtage2();
-				currentEtage2ListColorMaillon = etage2.getListColor().begin();
+				currentEtage2ListColorMaillon = etage2->getListColor().begin();
 
-				// TODO : Faire un DO WHILE pour le premier !!! Et un IF avant
-				while(currentEtage2ListColorMaillon.next() != NULL) {
+				// TODO : Traiter le dernier !!!
+				while(currentEtage2ListColorMaillon->getNext() != NULL) {
 					ambiguous = false;
 
 					if(currentConstraint.getEtage1() != NULL) {
 						etage1 = currentConstraint.getEtage1();
-						currentEtage1ListColorMaillon = etage1.getListColor().begin();
+						currentEtage1ListColorMaillon = etage1->getListColor().begin();
 
-						// TODO : Faire un DO WHILE pour le premier !!! Et un IF avant
-						while(currentEtage1ListColorMaillon.next() != NULL) {
-							if(!isDifferent(&currentColorClass, currentEtage1ListColorMaillon.getObject(),currentEtage2ListColorMaillon.getObject())) {
-								newColorClass = createNewColorClass(nbSommet, &currentColorClass, row[loop], currentEtage2ListColorMaillon.getObject());
-								colorClasses.insert(newColorClass, colorClassIndex);
+						// TODO : Traiter le dernier !!!
+						while(currentEtage1ListColorMaillon->getNext() != NULL) {
+							if(!isDifferent(*currentColorClass, currentEtage1ListColorMaillon->getObject(),currentEtage2ListColorMaillon->getObject())) {
+								//newColorClass = createNewColorClass(nbSommet, &currentColorClass, row[loop], currentEtage2ListColorMaillon->getObject());
+								//colorClasses.insert(newColorClass, colorClassIndex);
 								ambiguous = true;
 								mustRestart = true;
 							}
 
-							currentEtage1ListColorMaillon = currentEtage1ListColorMaillon.next();
+							currentEtage1ListColorMaillon = currentEtage1ListColorMaillon->getNext();
 						}
 
 						if(!ambiguous) {
-							etage1.set(currentEtage2ListColorMaillon.getObject());
-							etage2.reset(currentEtage2ListColorMaillon.getObject());
+							etage1->set(currentEtage2ListColorMaillon->getObject());
+							etage2->reset(currentEtage2ListColorMaillon->getObject());
 						}
 					}
 
-					currentEtage2ListColorMaillon = currentEtage2ListColorMaillon.next();
+					currentEtage2ListColorMaillon = currentEtage2ListColorMaillon->getNext();
 				}
 			}
 
@@ -95,9 +98,9 @@ void ColorClassProblem::resolve(string charpente) {
 			}
 		}
 
-		currentColorClassMaillon = currentColorClassMaillon.next();
+		currentColorClassMaillon = currentColorClassMaillon->getNext();
 		colorClassIndex ++;
-	}*/
+	}
 }
 
 bool ColorClassProblem::isDifferent(ColorClass & currentColorClass, unsigned int som1, unsigned int som2) {
@@ -212,10 +215,8 @@ void ColorClassProblem::buildProblem(string charpenteFile) {
 
 	}
 
-	colorClasses.push_back(colorClasse);
+	colorClasses.pushBack(colorClasse);
 }
-
-
 
 ostream& operator<<(ostream& out , const ColorClassProblem& problem ) {
 	unsigned int indiceContrainte;
@@ -234,15 +235,14 @@ ostream& operator<<(ostream& out , const ColorClassProblem& problem ) {
 	}
 
 	/* affichage de toutes les contraintes */
-
-	list<ColorClass*>::const_iterator it = problem.colorClasses.begin();
-	while(it != problem.colorClasses.end()) {
-		out << "ColorClasse N°" << indiceColorClasse << ": " << endl << (**it) <<endl;
-		it++;
+	 //
+	Maillon<ColorClass*>* currentColorClassMaillon = problem.colorClasses.begin();
+	// TODO : Traiter le dernier !!!
+	while(currentColorClassMaillon->getNext() != NULL) {
+		out << "ColorClasse N°" << indiceColorClasse << ": " <<endl;
+		currentColorClassMaillon = currentColorClassMaillon->getNext();
 		indiceColorClasse++;
 	}
-
-
 
 	return out;
 }

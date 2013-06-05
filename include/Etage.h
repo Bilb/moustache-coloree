@@ -8,22 +8,23 @@
 #ifndef ETAGE_H_
 #define ETAGE_H_
 
-#include <list>
 #include <iostream>
 #include <boost/dynamic_bitset.hpp>
 
-using namespace std;
+#include "SimpleLinkList.h"
+
+
 
 class Etage {
 private:
 	unsigned int nbSommet;
 	boost::dynamic_bitset<> bitsetColor;
-	std::list<int> listColor;
+	SimpleLinkList<int> listColor;
 
 public:
-	Etage(unsigned int nbSommet);
+	Etage(unsigned int nbSommet_);
 
-	std::list<int> getListColor() { return listColor;}
+	SimpleLinkList<int> getListColor() { return listColor;}
 	boost::dynamic_bitset<> getBitsetColor() { return bitsetColor;}
 
 
@@ -39,7 +40,7 @@ public:
 	 */
 	void reset(unsigned int indice);
 
-	friend ostream& operator<<(ostream& out , const Etage& etage );
+	friend std::ostream& operator<<(std::ostream& out , const Etage& etage );
 
 
 	virtual ~Etage();

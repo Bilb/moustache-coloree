@@ -14,6 +14,12 @@ using namespace std;
 #include "../include/Contrainte.h"
 #include "../include/Etage.h"
 
+Contrainte::Contrainte() {
+	nbSommet = 0;
+	etage1 = NULL;
+	etage2 = NULL;
+}
+
 Contrainte::Contrainte(unsigned int nbSommet_) : nbSommet(nbSommet_) {
 	if(nbSommet > 0) {
 		etage1 = new Etage(nbSommet);
