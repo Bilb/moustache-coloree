@@ -26,8 +26,11 @@ public:
 	ColorClass(unsigned int nbSommet, ColorClass& src, unsigned int search, unsigned int replace);
 
 
+
 	friend ostream& operator<<(ostream& out , const ColorClass& colorClass );
 
+
+	Contrainte* getContraintes() { return contraintes;}
 	virtual ~ColorClass();
 };
 

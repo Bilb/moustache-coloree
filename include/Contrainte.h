@@ -21,7 +21,7 @@ private:
 	Etage* etage2;
 	unsigned int nbSommet;
 public:
-	Contrainte() : Contrainte(0) { }
+	Contrainte() : Contrainte(1) { }
 	Contrainte(unsigned int nbSommet);
 
 
@@ -36,13 +36,18 @@ public:
 
 	void setByMagic(unsigned int nbSommet, unsigned int i, Contrainte& src, unsigned int search, unsigned int replace);
 
+
 	/**
 	 * resize etage1 and etage2 to a capacity of nbSommet
 	 */
 	void setNbSommet(unsigned int nbSommet);
 
-	friend ostream& operator<<(ostream& out , const Contrainte& cont );
+	/**
+	 * set etage1 & 2 with specific etages.
+	 */
+	void setNbSommet(unsigned int nbSommet, Etage* etage1_, Etage* etage2_);
 
+	friend ostream& operator<<(ostream& out , const Contrainte& cont );
 	virtual ~Contrainte();
 };
 

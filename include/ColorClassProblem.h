@@ -13,19 +13,25 @@
 
 #include "ColorClass.h"
 
+#include <iostream>
 
 using namespace std;
 
 class ColorClassProblem {
 private:
-	list<ColorClass> colorClasses;
-	map<int,int> row;
-	int nbSommets;
+	list<ColorClass*> colorClasses;
+	map<unsigned int, unsigned int> row;
+	unsigned int nbSommets;
 public:
-	ColorClassProblem();
+	ColorClassProblem(string& charpenteFile);
 	virtual ~ColorClassProblem();
 	void resolve(string charpente);
 	void buildProblem(string charpente);
+
+
+
+	bool isDifferent(ColorClass & currentColorClass,  unsigned int som1, unsigned int som2);
+	friend ostream& operator<<(ostream& out , const ColorClassProblem& problem );
 };
 
 #endif /* COLORCLASSPROBLEM_H_ */

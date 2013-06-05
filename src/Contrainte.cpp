@@ -6,6 +6,7 @@
  */
 
 #include <iostream>
+#include <stdio.h>
 
 using namespace std;
 
@@ -59,23 +60,33 @@ void Contrainte::setNbSommet(unsigned int nbSommet_)
 
 	etage1 = new Etage(nbSommet);
 	etage2 = new Etage(nbSommet);
-
-	/* This is where magic happens */
 }
 
 
+void Contrainte::setNbSommet(unsigned int nbSommet_, Etage* etage1_, Etage* etage2_)
+{
+	nbSommet = nbSommet_;
+	if(etage1)
+		delete etage1;
+	if(etage2)
+		delete etage2;
+
+	etage1 = etage1_;
+	etage2 = etage2_;
+}
+
 
 ostream& operator<<(ostream& out , const Contrainte& cont ) {
-	out << "nbSommets: " << cont.getNbSommet() << endl;
+	out << "\tnbSommets: " << cont.getNbSommet() << endl;
 	if(cont.getEtage1()!= NULL)
-		out << "\tetage1: " << *cont.getEtage1() << endl;
+		out << "\t\tetage1: " << *cont.getEtage1() << endl;
 	else
-		out << "\tetage1: " << "NULL" << endl;
+		out << "\t\tetage1: " << "NULL" << endl;
 
 	if(cont.getEtage2()!= NULL)
-		out << "\tetage2: " << *cont.getEtage2() << endl;
+		out << "\t\tetage2: " << *cont.getEtage2() << endl;
 	else
-		out << "\tetage2: " << "NULL" << endl;
+		out << "\t\tetage2: " << "NULL" << endl;
 	return out;
 }
 

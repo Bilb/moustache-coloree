@@ -16,10 +16,11 @@
 using namespace std;
 
 int main(int argc, char* argv[]) {
-	ColorClass colorClass(3);
+	string test("test");
+	ColorClassProblem problem(test);
 
 
-	cout << "colorClass " << colorClass << endl;
+	cout << "problem " << problem << endl;
 	return 0;
 }
 
