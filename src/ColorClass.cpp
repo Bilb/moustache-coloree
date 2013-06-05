@@ -13,10 +13,10 @@
 using namespace std;
 
 ColorClass::ColorClass(unsigned int nbSommet_) : nbSommet(nbSommet_){
-	if(nbSommet_ > 0) {
+	if(nbSommet > 0) {
 		contraintes = new Contrainte[nbSommet]();
 		unsigned int indice;
-		for(indice = 0; indice < nbSommet ; ++indice) {
+		for(indice = 0; indice < nbSommet ; indice++) {
 			contraintes[indice].setNbSommet(nbSommet);
 		}
 	}
@@ -37,7 +37,8 @@ ColorClass::ColorClass(unsigned int nbSommet_, ColorClass& src, unsigned int sea
 	contraintes = new Contrainte[nbSommet]();
 	unsigned int indice;
 	for(indice = 0; indice > nbSommet ; ++indice) {
-		contraintes[indice].setByMagic(nbSommet,indice, src.contraintes[indice], search, replace);
+		//contraintes[indice].setByMagic(nbSommet,indice, src.contraintes[indice], search, replace);
+		//todo
 	}
 }
 
@@ -49,7 +50,7 @@ ostream& operator<<(ostream& out , const ColorClass& colorClass ) {
 
 	if(colorClass.nbSommet > 0) {
 		for(indice = 0; indice < colorClass.nbSommet; indice++) {
-			out << "contrainte n°"  << indice << ": "<< colorClass.contraintes[indice] <<endl;
+			out << "\tcontrainte n°"  << indice << ": "<< colorClass.contraintes[indice] <<endl;
 		}
 	}
 	else {

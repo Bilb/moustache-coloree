@@ -16,7 +16,6 @@ Etage::Etage(unsigned int nbSommet_) : nbSommet(nbSommet_),
 bitsetColor(nbSommet),
 listColor()
 {
-
 }
 
 Etage::~Etage() {

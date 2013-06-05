@@ -22,9 +22,6 @@ int main(int argc, char* argv[]) {
 	maList->pushBack(1);
 	maList->pushBack(2);
 	maList->pushBack(3);
-	cout << "test" << endl;
-
-
 
 	Maillon<int>* maillon = maList->begin();
 
@@ -34,7 +31,9 @@ int main(int argc, char* argv[]) {
 	}
 	cout << maillon->getObject() << endl;
 
-	cout << "colorClass " << colorClass << endl;
+	string test("test");
+	ColorClassProblem problem(test);
+	cout << "problem " << problem << endl;
 	return 0;
 }
 
