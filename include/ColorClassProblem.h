@@ -19,8 +19,11 @@ using namespace std;
 
 class ColorClassProblem {
 private:
+	map<unsigned int, unsigned int> rowToSommet;
+	map<unsigned int, unsigned int> sommetToRow;
+
 	SimpleLinkList<ColorClass*> colorClasses;
-	map<unsigned int, unsigned int> row;
+
 	unsigned int nbSommets;
 public:
 	ColorClassProblem(string& charpenteFile);

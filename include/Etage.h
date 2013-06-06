@@ -13,7 +13,7 @@
 
 #include "SimpleLinkList.h"
 
-using namespace std;
+
 
 class Etage {
 private:
@@ -22,7 +22,7 @@ private:
 	SimpleLinkList<int> listColor;
 
 public:
-	Etage(unsigned int nbSommet);
+	Etage(unsigned int nbSommet_);
 
 	SimpleLinkList<int> getListColor() { return listColor;}
 	boost::dynamic_bitset<> getBitsetColor() { return bitsetColor;}
@@ -40,7 +40,7 @@ public:
 	 */
 	void reset(unsigned int indice);
 
-	friend ostream& operator<<(ostream& out , const Etage& etage );
+	friend std::ostream& operator<<(std::ostream& out , const Etage& etage );
 
 
 	virtual ~Etage();

@@ -11,7 +11,7 @@
 #include "../include/Etage.h"
 
 #include <iostream>
-
+#include <map>
 
 using namespace std;
 
@@ -34,7 +34,8 @@ public:
 	unsigned int getNbSommet() const { return nbSommet; }
 
 
-	void setByMagic(unsigned int nbSommet, unsigned int i, Contrainte& src, unsigned int search, unsigned int replace);
+	void setByMagic(map<unsigned int, unsigned int> &rowToSommet,map<unsigned int, unsigned int> &sommetToRow,
+			unsigned int nbSommet, unsigned int i, Contrainte& src, unsigned int search, unsigned int replace);
 
 
 	/**

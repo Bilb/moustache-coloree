@@ -21,7 +21,7 @@ private:
 public:
 	SimpleLinkList();
 	virtual ~SimpleLinkList();
-	Maillon<T>* begin();
+	Maillon<T>* begin() const;
 	Maillon<T>* end();
 	void pushBack(T t);
 };
@@ -38,7 +38,7 @@ SimpleLinkList<T>::~SimpleLinkList() {
 }
 
 template<typename T>
-Maillon<T>* SimpleLinkList<T>::begin() {
+Maillon<T>* SimpleLinkList<T>::begin()  const{
 	return head;
 }
 

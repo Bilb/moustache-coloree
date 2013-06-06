@@ -39,9 +39,10 @@ Contrainte::~Contrainte() {
 
 
 
-void Contrainte::setByMagic(unsigned int nbSommet_, unsigned int i, Contrainte& src, unsigned int search, unsigned int replace)
+void Contrainte::setByMagic(map<unsigned int, unsigned int> &rowToSommet, map<unsigned int, unsigned int> &sommetToRow,
+		unsigned int nbSommet_, unsigned int indice, Contrainte& src, unsigned int search, unsigned int replace)
 {
-	nbSommet = src.getNbSommet();
+	nbSommet = nbSommet_;
 	if(etage1)
 		delete etage1;
 	if(etage2)
@@ -52,6 +53,31 @@ void Contrainte::setByMagic(unsigned int nbSommet_, unsigned int i, Contrainte& 
 
 	/* This is where magic happens */
 	//todo
+	unsigned int rowSearch = sommetToRow[search];
+
+	if(indice == rowSearch) {
+		//cas d'égalité : mettre une égalité. todo
+	}
+	else if( indice > rowSearch) {
+		// faire le search & replace :
+		/* etage1 */
+		// parcourir la liste de etage1, si égale à search, faire un set(replace) (et mettre un bool à true), sinon faire un set de celui trouvé dans la liste
+
+		/* etage2 */
+		// parcourir la liste de etage2, si on tombe sur search, alors si bool=true, ne rien faire, il est déjà dans l'étage1
+		// 		sinon si bool = false, faire un etage2.set(replace)
+		// sinon, ajouter celui trouver dans l'etage2
+	}
+	else {
+		// copier simplement les deux étages de la src, on a un  rang inférieur au replace : rien à faire de plus
+		// parcourir la liste de src.etage1 et faire un set de etage1
+		// parcourir la liste de src.etage2 et faire un set de etage2
+	}
+
+
+
+
+
 }
 
 

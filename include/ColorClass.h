@@ -23,7 +23,8 @@ private:
 
 public:
 	ColorClass(unsigned int nbSommet);
-	ColorClass(unsigned int nbSommet, ColorClass& src, unsigned int search, unsigned int replace);
+	ColorClass(map<unsigned int, unsigned int> &rowToSommet, map<unsigned int, unsigned int> &sommetToRow,
+			unsigned int nbSommet, ColorClass& src, unsigned int search, unsigned int replace);
 
 
 

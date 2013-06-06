@@ -10,7 +10,6 @@
 #include <assert.h>
 #include <iostream>
 
-using namespace std;
 
 Etage::Etage(unsigned int nbSommet_) : nbSommet(nbSommet_),
 bitsetColor(nbSommet),
@@ -28,7 +27,7 @@ void Etage::set(unsigned int indice) {
 
 	if(!bitsetColor[indice]) {
 		bitsetColor.set(indice);
-		listColor.push_back(indice);
+		listColor.pushBack(indice);
 	}
 }
 
