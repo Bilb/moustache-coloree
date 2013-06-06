@@ -34,7 +34,7 @@ public:
 
 
 	bool isDifferent(ColorClass & currentColorClass,  unsigned int som1, unsigned int som2);
-	friend ostream& operator<<(ostream& out , const ColorClassProblem& problem );
+	friend ostream& operator<<(ostream& out ,  ColorClassProblem& problem );
 };
 
 #endif /* COLORCLASSPROBLEM_H_ */

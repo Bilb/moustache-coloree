@@ -19,6 +19,7 @@ class Contrainte {
 private:
 	Etage* etage1;
 	Etage* etage2;
+	unsigned int egalite;
 	unsigned int nbSommet;
 public:
 	Contrainte();
@@ -26,8 +27,8 @@ public:
 
 
 
-	Etage* getEtage1() const { return etage1;}
-	Etage* getEtage2() const { return etage2;}
+	Etage* getEtage1() { return etage1;}
+	Etage* getEtage2() { return etage2;}
 	void setEtage1(Etage* etage) { etage1 = etage; };
 	void setEtage2(Etage* etage) { etage2 = etage; };
 
@@ -48,7 +49,7 @@ public:
 	 */
 	void setNbSommet(unsigned int nbSommet, Etage* etage1_, Etage* etage2_);
 
-	friend ostream& operator<<(ostream& out , const Contrainte& cont );
+	friend ostream& operator<<(ostream& out , Contrainte& cont );
 	virtual ~Contrainte();
 };
 

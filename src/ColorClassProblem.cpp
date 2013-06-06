@@ -22,10 +22,10 @@
 ColorClassProblem::ColorClassProblem(string& charpenteFile) {
 	if (charpenteFile.length() > 0) {
 		//resolve(charpenteFile);
-		buildProblem("test");
+		buildProblem(charpenteFile);
 	}
 	else {
-		cout << "Impossible de charger le problème depuis le fichier '" << charpenteFile << "'" << endl;
+		cout << "Impossible de charger le probleme depuis le fichier '" << charpenteFile << "'" << endl;
 	}
 
 
@@ -42,31 +42,36 @@ void ColorClassProblem::resolve(string charpente) {
 	bool ambiguous;
 	bool mustRestart;
 
-	Maillon<ColorClass*>* currentColorClassMaillon = ColorClassProblem::colorClasses.begin();
+	Maillon<ColorClass*>* currentColorClassMaillon = colorClasses.begin();
 	Maillon<int>* currentEtage1ListColorMaillon;
 	Maillon<int>* currentEtage2ListColorMaillon;
 	ColorClass* currentColorClass = currentColorClassMaillon->getObject();
 	Etage* etage1;
 	Etage* etage2;
 
-	buildProblem(charpente);
+
+
 
 	// TODO : Traiter le dernier !!!
-	while(currentColorClassMaillon->getNext() != NULL) {
+	while(currentColorClassMaillon != NULL) {
+		cout << "currentColorClassMaillon != NULL" << endl;
 		currentColorClass = currentColorClassMaillon->getObject();
 
 		while(loop < nbSommets) {
+			cout << "loop : " << loop << " sommetnb" <<nbSommets <<endl;
 			mustRestart = false;
 
 			Contrainte* currentConstraint = currentColorClass[loop].getContraintes();
 
+			cout << "currentConstraint->getEtage2() " << currentConstraint->getEtage2()  << endl;
 			if(currentConstraint->getEtage2() != NULL) {
 				etage2 = currentConstraint->getEtage2();
 
 				currentEtage2ListColorMaillon = etage2->getListColor().begin();
 
 				// TODO : Traiter le dernier !!!
-				while(currentEtage2ListColorMaillon->getNext() != NULL) {
+				while(currentEtage2ListColorMaillon != NULL) {
+					cout << "lwhile(currentEtage2ListColorMaillon != NULL)" << endl;
 					ambiguous = false;
 
 					if(currentConstraint->getEtage1() != NULL) {
@@ -75,10 +80,15 @@ void ColorClassProblem::resolve(string charpente) {
 						currentEtage1ListColorMaillon = etage1->getListColor().begin();
 
 						// TODO : Traiter le dernier !!!
-						while(currentEtage1ListColorMaillon->getNext() != NULL) {
+						while(currentEtage1ListColorMaillon != NULL) {
+							cout << "lwhile(currentEtage1ListColorMaillon != NULL)" << endl;
 							if(!isDifferent(*currentColorClass, currentEtage1ListColorMaillon->getObject(),currentEtage2ListColorMaillon->getObject())) {
-
-								newColorClass = createNewColorClass(nbSommet, &currentColorClass, row[loop], currentEtage2ListColorMaillon->getObject());
+								ColorClass * newColorClass = new ColorClass(rowToSommet,
+																			sommetToRow,
+																			nbSommets,
+																			*currentColorClass,
+																			rowToSommet[loop],
+																			currentEtage2ListColorMaillon->getObject());
 								colorClasses.insert(newColorClass, colorClassIndex);
 
 								ambiguous = true;
@@ -86,6 +96,8 @@ void ColorClassProblem::resolve(string charpente) {
 							}
 
 							currentEtage1ListColorMaillon = currentEtage1ListColorMaillon->getNext();
+
+
 						}
 
 						if(!ambiguous) {
@@ -95,16 +107,22 @@ void ColorClassProblem::resolve(string charpente) {
 					}
 
 					currentEtage2ListColorMaillon = currentEtage2ListColorMaillon->getNext();
+
+
 				}
 			}
 
 			if(mustRestart) {
 				loop = 0;
 			}
+			loop++;
+
 		}
 
 		currentColorClassMaillon = currentColorClassMaillon->getNext();
 		colorClassIndex ++;
+
+
 	}
 }
 
@@ -163,13 +181,13 @@ void ColorClassProblem::buildProblem(string charpenteFile) {
 	rowToSommet[5] = 5;
 	rowToSommet[6] = 7;
 
-	sommetToRow[1] = 0;
-	sommetToRow[3] = 1;
-	sommetToRow[4] = 2;
-	sommetToRow[2] = 3;
-	sommetToRow[6] = 4;
-	sommetToRow[5] = 5;
-	sommetToRow[7] = 6;
+	sommetToRow[1-1] = 0;
+	sommetToRow[3-1] = 1;
+	sommetToRow[4-1] = 2;
+	sommetToRow[2-1] = 3;
+	sommetToRow[6-1] = 4;
+	sommetToRow[5-1] = 5;
+	sommetToRow[7-1] = 6;
 
 
 	ColorClass* colorClasse = new ColorClass(nbSommets);
@@ -223,7 +241,7 @@ void ColorClassProblem::buildProblem(string charpenteFile) {
 	colorClasses.pushBack(colorClasse);
 }
 
-ostream& operator<<(ostream& out , const ColorClassProblem& problem ) {
+ostream& operator<<(ostream& out ,  ColorClassProblem& problem ) {
 	unsigned int indiceContrainte;
 	unsigned int indiceColorClasse = 0;
 
@@ -243,8 +261,9 @@ ostream& operator<<(ostream& out , const ColorClassProblem& problem ) {
 	 //
 	Maillon<ColorClass*>* currentColorClassMaillon = problem.colorClasses.begin();
 	// TODO : Traiter le dernier !!!
-	while(currentColorClassMaillon->getNext() != NULL) {
-		out << "ColorClasse N°" << indiceColorClasse << ": " <<endl;
+	while(currentColorClassMaillon != NULL) {
+		out << "ColorClasse Num " << indiceColorClasse << ": " <<endl;
+		out << *(currentColorClassMaillon->getObject()) << endl;
 		currentColorClassMaillon = currentColorClassMaillon->getNext();
 		indiceColorClasse++;
 	}

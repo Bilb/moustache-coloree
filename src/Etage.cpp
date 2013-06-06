@@ -39,7 +39,7 @@ void Etage::reset(unsigned int indice) {
 
 	if(bitsetColor[indice]) {
 		bitsetColor.reset(indice);
-		listColor.remove(indice);
+		listColor.removeAllOccurences(indice);
 	}
 
 }

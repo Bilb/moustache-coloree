@@ -16,24 +16,23 @@
 using namespace std;
 
 int main(int argc, char* argv[]) {
-	ColorClass colorClass(3);
-	SimpleLinkList<int>* maList = new SimpleLinkList<int>();
 
-	maList->pushBack(1);
-	maList->pushBack(2);
-	maList->pushBack(3);
 
-	Maillon<int>* maillon = maList->begin();
 
-	while(maillon->getNext() != NULL) {
-		cout << maillon->getObject() << endl;
-		maillon = maillon->getNext();
-	}
-	cout << maillon->getObject() << endl;
+
+
+
+
 
 	string test("test");
 	ColorClassProblem problem(test);
-	cout << "problem " << problem << endl;
+
+	cout << "problem INITIAL" << problem << endl;
+	problem.resolve(test);
+
+	cout << "problem RESOLVED" << problem << endl;
+
+
 	return 0;
 }
 

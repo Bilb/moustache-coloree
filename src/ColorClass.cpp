@@ -49,7 +49,7 @@ ostream& operator<<(ostream& out , const ColorClass& colorClass ) {
 
 	if(colorClass.nbSommet > 0) {
 		for(indice = 0; indice < colorClass.nbSommet; indice++) {
-			out << "\tcontrainte n°"  << indice << ": "<< colorClass.contraintes[indice] <<endl;
+			out << "\tcontrainte num"  << indice << ": "<< colorClass.contraintes[indice] <<endl;
 		}
 	}
 	else {

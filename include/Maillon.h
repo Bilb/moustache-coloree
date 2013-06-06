@@ -17,6 +17,7 @@ private:
 	Maillon* next;
 public:
 	Maillon<T>();
+	Maillon<T>(T elem);
 	virtual ~Maillon();
 	T getObject();
 	void setObject(T t);
@@ -28,6 +29,12 @@ public:
 template <typename T>
 Maillon<T>::Maillon() {
 	//object = NULL;
+	next = NULL;
+}
+
+template <typename T>
+Maillon<T>::Maillon(T elem) {
+	setObject(elem);
 	next = NULL;
 }
 
