@@ -8,19 +8,18 @@
 #include <iostream>
 #include <stdio.h>
 
-using namespace std;
+
 
 
 #include "../include/Contrainte.h"
 #include "../include/Etage.h"
 
-Contrainte::Contrainte() {
-	nbSommet = 0;
+Contrainte::Contrainte() : egalite(-1), nbSommet(0) {
 	etage1 = NULL;
 	etage2 = NULL;
 }
 
-Contrainte::Contrainte(unsigned int nbSommet_) : nbSommet(nbSommet_) {
+Contrainte::Contrainte(unsigned int nbSommet_) : egalite(-1), nbSommet(nbSommet_) {
 	if(nbSommet > 0) {
 		etage1 = new Etage(nbSommet);
 		etage2 = new Etage(nbSommet);
@@ -52,26 +51,75 @@ void Contrainte::setByMagic(map<unsigned int, unsigned int> &rowToSommet, map<un
 	etage2 = new Etage(nbSommet);
 
 	/* This is where magic happens */
-	//todo
 	unsigned int rowSearch = sommetToRow[search];
 
 	if(indice == rowSearch) {
-		//cas d'égalité : mettre une égalité. todo
+		//cas d'égalité : mettre une égalité
+		egalite = search;
+		cout << "egalité mise à " << egalite << endl;
 	}
 	else if( indice > rowSearch) {
-		// faire le search & replace :
+
 		/* etage1 */
 		// parcourir la liste de etage1, si égale à search, faire un set(replace) (et mettre un bool à true), sinon faire un set de celui trouvé dans la liste
+		Etage* etg1Src = src.getEtage1();
+		Etage* etg2Src = src.getEtage2();
+
+		assert(etg1Src != NULL);
+		assert(etg2Src != NULL);
+		bool isSetInEtage1 = false;
+
+		Maillon<int> * current = etg1Src->getListColor().begin();
+		while(current != NULL) {
+			if(current->getObject() == search) {
+				etage1->set(replace);
+				isSetInEtage1  = true;
+			}
+			else
+				etage1->set(current->getObject());
+			current = current->getNext();
+		}
+
 
 		/* etage2 */
 		// parcourir la liste de etage2, si on tombe sur search, alors si bool=true, ne rien faire, il est déjà dans l'étage1
 		// 		sinon si bool = false, faire un etage2.set(replace)
 		// sinon, ajouter celui trouver dans l'etage2
+		current = etg2Src->getListColor().begin();
+		while(current != NULL) {
+			if(current->getObject() == search && !isSetInEtage1) {
+				etage2->set(replace);
+			}
+			else{
+				etage2->set(current->getObject());
+			}
+
+			current = current->getNext();
+		}
+
 	}
 	else {
+		Etage* etg1Src = src.getEtage1();
+		Etage* etg2Src = src.getEtage2();
+
+		assert(etg1Src != NULL);
+		assert(etg2Src != NULL);
+
 		// copier simplement les deux étages de la src, on a un  rang inférieur au replace : rien à faire de plus
 		// parcourir la liste de src.etage1 et faire un set de etage1
-		// parcourir la liste de src.etage2 et faire un set de etage2
+
+		/* etage1 */
+		Maillon<int> * current = etg1Src->getListColor().begin();
+		while(current != NULL) {
+			etage1->set(current->getObject());
+			current = current->getNext();
+		}
+		/* etage2 */
+		current = etg2Src->getListColor().begin();
+		while(current != NULL) {
+			etage2->set(current->getObject());
+			current = current->getNext();
+		}
 	}
 
 

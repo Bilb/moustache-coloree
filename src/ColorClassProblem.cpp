@@ -74,8 +74,10 @@ void ColorClassProblem::resolve(string charpente) {
 						// TODO : Traiter le dernier !!!
 						while(currentEtage1ListColorMaillon->getNext() != NULL) {
 							if(!isDifferent(*currentColorClass, currentEtage1ListColorMaillon->getObject(),currentEtage2ListColorMaillon->getObject())) {
-								//newColorClass = createNewColorClass(nbSommet, &currentColorClass, row[loop], currentEtage2ListColorMaillon->getObject());
-								//colorClasses.insert(newColorClass, colorClassIndex);
+								ColorClass * newColorClass = new ColorClass(rowToSommet, sommetToRow, nbSommets, &currentColorClass, rowToSommet[loop],
+								currentEtage2ListColorMaillon->getObject());
+								colorClasses.insert(newColorClass, colorClassIndex);
+
 								ambiguous = true;
 								mustRestart = true;
 							}

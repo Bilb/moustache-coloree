@@ -19,6 +19,7 @@ class Contrainte {
 private:
 	Etage* etage1;
 	Etage* etage2;
+	unsigned int egalite;
 	unsigned int nbSommet;
 public:
 	Contrainte();

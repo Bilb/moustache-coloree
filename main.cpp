@@ -16,7 +16,10 @@
 using namespace std;
 
 int main(int argc, char* argv[]) {
-	ColorClass colorClass(3);
+
+
+
+
 	SimpleLinkList<int>* maList = new SimpleLinkList<int>();
 
 	maList->pushBack(1);
@@ -25,15 +28,25 @@ int main(int argc, char* argv[]) {
 
 	Maillon<int>* maillon = maList->begin();
 
+
+
 	while(maillon->getNext() != NULL) {
 		cout << maillon->getObject() << endl;
 		maillon = maillon->getNext();
 	}
 	cout << maillon->getObject() << endl;
 
-	string test("test");
+
+
+
+
+	/*string test("test");
 	ColorClassProblem problem(test);
-	cout << "problem " << problem << endl;
+	cout << "problem " << problem << endl;*/
+
+
+
+
 	return 0;
 }
 

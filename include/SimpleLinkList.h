@@ -38,7 +38,7 @@ SimpleLinkList<T>::~SimpleLinkList() {
 }
 
 template<typename T>
-Maillon<T>* SimpleLinkList<T>::begin()  const{
+Maillon<T>* SimpleLinkList<T>::begin()  const {
 	return head;
 }
 
