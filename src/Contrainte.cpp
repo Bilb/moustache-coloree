@@ -35,8 +35,16 @@ Contrainte::~Contrainte() {
 	delete etage2;
 }
 
+Etage* Contrainte::getEtage1() {
+	cout << "TEST3.1.1" << endl;
+	cout << etage1 << endl;
+	return etage1;
+}
 
-
+Etage* Contrainte::getEtage2() {
+	cout << "TEST3.1" << endl;
+	return etage2;
+}
 
 void Contrainte::setByMagic(map<unsigned int, unsigned int> &rowToSommet, map<unsigned int, unsigned int> &sommetToRow,
 		unsigned int nbSommet_, unsigned int indice, Contrainte& src, unsigned int search, unsigned int replace)
