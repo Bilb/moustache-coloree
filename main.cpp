@@ -33,13 +33,6 @@ int main(int argc, char* argv[]) {
 	cout << "problem RESOLVED" << problem << endl;
 
 
-//	SimpleLinkList<int> testList;
-
-/*testList.pushBack(1);
-testList.pushBack(2);
-testList.pushBack(3);
-
-	testList.print();*/
 	return 0;
 }
 

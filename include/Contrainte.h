@@ -27,8 +27,8 @@ public:
 
 
 
-	Etage* getEtage1() { return etage1;}
-	Etage* getEtage2() { return etage2;}
+	Etage* getEtage1();
+	Etage* getEtage2();
 	void setEtage1(Etage* etage) { etage1 = etage; };
 	void setEtage2(Etage* etage) { etage2 = etage; };
 

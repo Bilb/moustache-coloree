@@ -35,8 +35,13 @@ Contrainte::~Contrainte() {
 	delete etage2;
 }
 
+Etage* Contrainte::getEtage1() {
+	return etage1;
+}
 
-
+Etage* Contrainte::getEtage2() {
+	return etage2;
+}
 
 void Contrainte::setByMagic(map<unsigned int, unsigned int> &rowToSommet, map<unsigned int, unsigned int> &sommetToRow,
 		unsigned int nbSommet_, unsigned int indice, Contrainte& src, unsigned int somSearch, unsigned int replace)

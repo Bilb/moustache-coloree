@@ -57,6 +57,7 @@ void ColorClassProblem::resolve(string charpente) {
 		currentColorClass = currentColorClassMaillon->getObject();
 
 		Contrainte* currentConstraint;
+		loop = 0;
 		while(loop < nbSommets) {
 			cout << endl << endl << "-------------loop : " << loop  << "-------------"<< endl << endl;
 			mustRestart = false;
@@ -67,44 +68,43 @@ void ColorClassProblem::resolve(string charpente) {
 			assert(currentConstraint != NULL);
 
 
+			mustRestart = false;
+
+
+
 			if(currentConstraint->getEtage2() != NULL) {
 				etage2 = currentConstraint->getEtage2();
-
 				currentEtage2ListColorMaillon = etage2->getListColor().begin();
 
 
 				while(currentEtage2ListColorMaillon != NULL) {
+
 					ambiguous = false;
 
 					if(currentConstraint->getEtage1() != NULL) {
 						etage1 = currentConstraint->getEtage1();
-
 						currentEtage1ListColorMaillon = etage1->getListColor().begin();
 
-						// TODO : Traiter le dernier !!!
 						while(currentEtage1ListColorMaillon != NULL) {
 							if(!isDifferent(*currentColorClass, currentEtage1ListColorMaillon->getObject(),currentEtage2ListColorMaillon->getObject())) {
 								cout << "calling new colorclass with: loop:" << loop << "somSearch" << rowToSommet[loop] << " replaceSom:" << currentEtage2ListColorMaillon->getObject();
 								ColorClass * newColorClass = new ColorClass(rowToSommet,
-																			sommetToRow,
-																			nbSommets,
-																			*currentColorClass,
-																			rowToSommet[loop],
-																			currentEtage2ListColorMaillon->getObject());
+										sommetToRow,
+										nbSommets,
+										*currentColorClass,
+										rowToSommet[loop],
+										currentEtage2ListColorMaillon->getObject());
 
 								colorClasses.insert(newColorClass, colorClassIndex);
-
 								ambiguous = true;
 								mustRestart = true;
+								cout << "===========================" <<endl;
 							}
 
 							currentEtage1ListColorMaillon = currentEtage1ListColorMaillon->getNext();
-
-
 						}
 
 						if(!ambiguous) {
-							cout << "not AMBIGUOUS" << endl;
 							etage1->set(currentEtage2ListColorMaillon->getObject());
 							etage2->reset(currentEtage2ListColorMaillon->getObject());
 						}
@@ -112,23 +112,25 @@ void ColorClassProblem::resolve(string charpente) {
 					}
 
 					currentEtage2ListColorMaillon = currentEtage2ListColorMaillon->getNext();
-					//cout << "FIN BOUCLE" << endl;
+
 				}
 			}
 
+			loop++;
 			if(mustRestart) {
 				loop = 0;
 			}
-			loop++;
+
+
 
 		}
 
+
 		currentColorClassMaillon = currentColorClassMaillon->getNext();
 		colorClassIndex ++;
-
-
 	}
 }
+
 
 bool ColorClassProblem::isDifferent(ColorClass & currentColorClass, unsigned int som1, unsigned int som2) {
 	unsigned int row1 = sommetToRow[som1];
@@ -274,7 +276,7 @@ ostream& operator<<(ostream& out ,  ColorClassProblem& problem ) {
 	/*for(indiceContrainte = 0; indiceContrainte < problem.nbSommets ; ++indiceContrainte) {
 		out << "\trow[" << indiceContrainte << "] :" << problem.rowToSommet.at(indiceContrainte) << endl;
 	}
-*/
+	 */
 	/* affichage des sommets vers les indexs */
 	/*for(indiceContrainte = 0; indiceContrainte < problem.nbSommets ; ++indiceContrainte) {
 		out << "\trow[" << indiceContrainte << "] :" << problem.sommetToRow.at(indiceContrainte) << endl;
