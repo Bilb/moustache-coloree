@@ -25,6 +25,8 @@ private:
 	SimpleLinkList<ColorClass*> colorClasses;
 
 	unsigned int nbSommets;
+
+	unsigned int getSomWithMaxRow(unsigned int som1, unsigned int som2);
 public:
 	ColorClassProblem(string& charpenteFile);
 	virtual ~ColorClassProblem();

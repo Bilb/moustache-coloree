@@ -87,17 +87,19 @@ void ColorClassProblem::resolve(string charpente) {
 
 						while(currentEtage1ListColorMaillon != NULL) {
 							if(!isDifferent(*currentColorClass, currentEtage1ListColorMaillon->getObject(),currentEtage2ListColorMaillon->getObject())) {
-								cout << "calling new colorclass with: loop:" << loop << "somSearch" << rowToSommet[loop] << " replaceSom:" << currentEtage2ListColorMaillon->getObject();
+								unsigned int search = getSomWithMaxRow(currentEtage1ListColorMaillon->getObject(),currentEtage2ListColorMaillon->getObject());
+								cout << "calling new colorclass with: loop:" << loop << "somSearch" << search << " replaceSom:" << currentEtage2ListColorMaillon->getObject();
 								ColorClass * newColorClass = new ColorClass(rowToSommet,
 										sommetToRow,
 										nbSommets,
 										*currentColorClass,
-										rowToSommet[loop],
+										search,
 										currentEtage2ListColorMaillon->getObject());
 
 								colorClasses.insert(newColorClass, colorClassIndex);
 								ambiguous = true;
 								mustRestart = true;
+								cout << "              new colorclass added : : " << *newColorClass << endl;
 								cout << "===========================" <<endl;
 							}
 
@@ -265,6 +267,23 @@ void ColorClassProblem::buildProblem(string charpenteFile) {
 	colorClasses.pushBack(colorClasse);
 	cout << "---------END OF BUILDER--------------" <<endl;
 }
+
+
+unsigned int ColorClassProblem::getSomWithMaxRow(unsigned int som1, unsigned int som2) {
+
+	assert(som1 < nbSommets);
+	assert(som2  < nbSommets);
+
+	if(sommetToRow[som1] > sommetToRow[som2])
+		return som1;
+	else
+		return som2;
+
+
+}
+
+
+
 
 ostream& operator<<(ostream& out ,  ColorClassProblem& problem ) {
 	//unsigned int indiceContrainte;

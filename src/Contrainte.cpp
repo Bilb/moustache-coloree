@@ -44,7 +44,7 @@ Etage* Contrainte::getEtage2() {
 }
 
 void Contrainte::setByMagic(map<unsigned int, unsigned int> &rowToSommet, map<unsigned int, unsigned int> &sommetToRow,
-		unsigned int nbSommet_, unsigned int indice, Contrainte& src, unsigned int somSearch, unsigned int replace)
+		unsigned int nbSommet_, unsigned int indice, Contrainte& src, unsigned int somSearch, unsigned int somReplace)
 {
 	std::cin.get();
 	nbSommet = nbSommet_;
@@ -63,7 +63,7 @@ void Contrainte::setByMagic(map<unsigned int, unsigned int> &rowToSommet, map<un
 
 	if(indice == rowSearch) {
 		//cas d'égalité : mettre une égalité
-		egalite = somSearch;
+		egalite = somReplace;
 		cout << "egalite mise a " << egalite << endl;
 	}
 	else if( indice > rowSearch) {
@@ -86,10 +86,10 @@ void Contrainte::setByMagic(map<unsigned int, unsigned int> &rowToSommet, map<un
 		Maillon<unsigned int> * current = etg1Src->getListColor().begin();
 		cout << "" << endl;
 		while(current != NULL) {
-			cout << "MAGICK : ETAGE1 search: " << somSearch << " current: "<< current->getObject() << " replace:" << replace << endl;
+			cout << "MAGICK : ETAGE1 search: " << somSearch << " current: "<< current->getObject() << " replace:" << somReplace << endl;
 			if(current->getObject() == somSearch) {
 
-				etage1->set(replace);
+				etage1->set(somReplace);
 				isSetInEtage1  = true;
 			}
 			else {
@@ -106,9 +106,9 @@ void Contrainte::setByMagic(map<unsigned int, unsigned int> &rowToSommet, map<un
 		// sinon, ajouter celui trouver dans l'etage2
 		current = etg2Src->getListColor().begin();
 		while(current != NULL) {
-			cout << "MAGICK : ETAGE2 search: " << somSearch << " current: "<< current->getObject() << " replace:" << replace << endl;
+			cout << "MAGICK : ETAGE2 search: " << somSearch << " current: "<< current->getObject() << " replace:" << somReplace << endl;
 			if(current->getObject() == somSearch && !isSetInEtage1) {
-				etage2->set(replace);
+				etage2->set(somReplace);
 			}
 			else if (!isSetInEtage1){
 				etage2->set(current->getObject());
@@ -148,11 +148,6 @@ void Contrainte::setByMagic(map<unsigned int, unsigned int> &rowToSommet, map<un
 			current = current->getNext();
 		}
 	}
-
-
-
-
-
 }
 
 
