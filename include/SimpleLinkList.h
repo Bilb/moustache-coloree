@@ -21,11 +21,16 @@ private:
 public:
 	SimpleLinkList();
 	virtual ~SimpleLinkList();
-	Maillon<T>* begin();
+	Maillon<T>* begin() const;
 	Maillon<T>* end();
 	void pushBack(T t);
+	void pushBack(T* t);
 	void insert(T elm, unsigned int indice);
 	void removeAllOccurences(T value);
+
+
+
+	void print() const;
 };
 
 
@@ -40,7 +45,7 @@ SimpleLinkList<T>::~SimpleLinkList() {
 }
 
 template<typename T>
-Maillon<T>* SimpleLinkList<T>::begin()  {
+Maillon<T>* SimpleLinkList<T>::begin() const  {
 	return head;
 }
 
@@ -75,11 +80,16 @@ void SimpleLinkList<T>::pushBack(T t) {
 	}
 }
 
+
+
+
+
 template<typename T>
 void SimpleLinkList<T>::insert(T elm, unsigned int indice) {
 	Maillon<T> * current = begin();
 	Maillon<T> * newElem = new Maillon<T>(elm);
 	unsigned int currentIndice = 0;
+
 
 	if(current == NULL) {
 		head = newElem;
@@ -108,7 +118,7 @@ void SimpleLinkList<T>::removeAllOccurences(T value) {
 		while(current->getNext() != NULL && current->getNext()->getObject() == value) {
 			current = current->getNext();
 		}
-		if(current->getNext()->getObject() == value) {
+		if(current->getNext() != NULL && current->getNext()->getObject() == value) {
 			Maillon<T> * lavictime = current->getNext();
 			current->setNext(current->getNext()->getNext());
 			delete lavictime;
@@ -116,6 +126,19 @@ void SimpleLinkList<T>::removeAllOccurences(T value) {
 	}
 }
 
+template<typename T>
+void SimpleLinkList<T>::print() const {
+	Maillon<int>* current = begin();
+	if(current != NULL) {
+		while(current != NULL) {
+			cout << "\n\t\t\titem " << current->getObject() << endl;
+			current = current->getNext();
+		}
+	}
+	else {
+		cout << "\t\t\tNULL" << endl;
+	}
+}
 
 
 

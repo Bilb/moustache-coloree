@@ -19,12 +19,12 @@ class Etage {
 private:
 	unsigned int nbSommet;
 	boost::dynamic_bitset<> bitsetColor;
-	SimpleLinkList<int> listColor;
+	SimpleLinkList<unsigned int> listColor;
 
 public:
 	Etage(unsigned int nbSommet_);
 
-	SimpleLinkList<int> getListColor() { return listColor;}
+	SimpleLinkList<unsigned int> getListColor() const { return listColor;}
 	boost::dynamic_bitset<> getBitsetColor() { return bitsetColor;}
 
 

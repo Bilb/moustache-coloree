@@ -39,8 +39,9 @@ Contrainte::~Contrainte() {
 
 
 void Contrainte::setByMagic(map<unsigned int, unsigned int> &rowToSommet, map<unsigned int, unsigned int> &sommetToRow,
-		unsigned int nbSommet_, unsigned int indice, Contrainte& src, unsigned int search, unsigned int replace)
+		unsigned int nbSommet_, unsigned int indice, Contrainte& src, unsigned int somSearch, unsigned int replace)
 {
+	std::cin.get();
 	nbSommet = nbSommet_;
 	if(etage1)
 		delete etage1;
@@ -50,33 +51,46 @@ void Contrainte::setByMagic(map<unsigned int, unsigned int> &rowToSommet, map<un
 	etage1 = new Etage(nbSommet);
 	etage2 = new Etage(nbSommet);
 
-	/* This is where magic happens */
-	unsigned int rowSearch = sommetToRow[search];
+
+	unsigned int rowSearch = sommetToRow[somSearch];
+
+	cout << "MAGICK : somSearch : " << somSearch << " rowSearch" << rowSearch << " indice:" << indice << endl;
 
 	if(indice == rowSearch) {
 		//cas d'égalité : mettre une égalité
-		egalite = search;
+		egalite = somSearch;
 		cout << "egalite mise a " << egalite << endl;
 	}
 	else if( indice > rowSearch) {
+
+		cout << "magick : copie MAGGICK des deux etages" << endl;
 
 		/* etage1 */
 		// parcourir la liste de etage1, si égale à search, faire un set(replace) (et mettre un bool à true), sinon faire un set de celui trouvé dans la liste
 		Etage* etg1Src = src.getEtage1();
 		Etage* etg2Src = src.getEtage2();
 
+		cout << "etage1 to copy:"  << *etg1Src << endl;
+		cout << "etage2 to copy:"  << *etg2Src << endl;
+
+
 		assert(etg1Src != NULL);
 		assert(etg2Src != NULL);
 		bool isSetInEtage1 = false;
 
-		Maillon<int> * current = etg1Src->getListColor().begin();
+		Maillon<unsigned int> * current = etg1Src->getListColor().begin();
+		cout << "" << endl;
 		while(current != NULL) {
-			if(current->getObject() == search) {
+			cout << "MAGICK : ETAGE1 search: " << somSearch << " current: "<< current->getObject() << " replace:" << replace << endl;
+			if(current->getObject() == somSearch) {
+
 				etage1->set(replace);
 				isSetInEtage1  = true;
 			}
-			else
+			else {
+
 				etage1->set(current->getObject());
+			}
 			current = current->getNext();
 		}
 
@@ -87,10 +101,11 @@ void Contrainte::setByMagic(map<unsigned int, unsigned int> &rowToSommet, map<un
 		// sinon, ajouter celui trouver dans l'etage2
 		current = etg2Src->getListColor().begin();
 		while(current != NULL) {
-			if(current->getObject() == search && !isSetInEtage1) {
+			cout << "MAGICK : ETAGE2 search: " << somSearch << " current: "<< current->getObject() << " replace:" << replace << endl;
+			if(current->getObject() == somSearch && !isSetInEtage1) {
 				etage2->set(replace);
 			}
-			else{
+			else if (!isSetInEtage1){
 				etage2->set(current->getObject());
 			}
 
@@ -99,8 +114,13 @@ void Contrainte::setByMagic(map<unsigned int, unsigned int> &rowToSommet, map<un
 
 	}
 	else {
+		cout << "magick : copie simple des deux etages" << endl;
+
 		Etage* etg1Src = src.getEtage1();
 		Etage* etg2Src = src.getEtage2();
+
+		cout << "etage1 to copy:"  << *etg1Src << endl;
+		cout << "etage2 to copy:"  << *etg2Src << endl;
 
 		assert(etg1Src != NULL);
 		assert(etg2Src != NULL);
@@ -109,14 +129,16 @@ void Contrainte::setByMagic(map<unsigned int, unsigned int> &rowToSommet, map<un
 		// parcourir la liste de src.etage1 et faire un set de etage1
 
 		/* etage1 */
-		Maillon<int> * current = etg1Src->getListColor().begin();
+		Maillon<unsigned int> * current = etg1Src->getListColor().begin();
 		while(current != NULL) {
+			cout << "setting etage1 to true : " << current->getObject() << endl;
 			etage1->set(current->getObject());
 			current = current->getNext();
 		}
 		/* etage2 */
 		current = etg2Src->getListColor().begin();
 		while(current != NULL) {
+			cout << "setting etage2 to true : " << current->getObject() << endl;
 			etage2->set(current->getObject());
 			current = current->getNext();
 		}
@@ -167,6 +189,9 @@ ostream& operator<<(ostream& out ,  Contrainte& cont ) {
 		out << "\t\tetage2: " << *cont.getEtage2() << endl;
 	else
 		out << "\t\tetage2: " << "NULL" << endl;
+
+	if(cont.egalite < cont.getNbSommet())
+		out << "\t\t\tegalite:" << cont.egalite << endl;
 	return out;
 }
 

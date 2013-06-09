@@ -43,8 +43,8 @@ void ColorClassProblem::resolve(string charpente) {
 	bool mustRestart;
 
 	Maillon<ColorClass*>* currentColorClassMaillon = colorClasses.begin();
-	Maillon<int>* currentEtage1ListColorMaillon;
-	Maillon<int>* currentEtage2ListColorMaillon;
+	Maillon<unsigned int>* currentEtage1ListColorMaillon;
+	Maillon<unsigned int>* currentEtage2ListColorMaillon;
 	ColorClass* currentColorClass = currentColorClassMaillon->getObject();
 	Etage* etage1;
 	Etage* etage2;
@@ -54,24 +54,26 @@ void ColorClassProblem::resolve(string charpente) {
 
 	// TODO : Traiter le dernier !!!
 	while(currentColorClassMaillon != NULL) {
-		cout << "currentColorClassMaillon != NULL" << endl;
 		currentColorClass = currentColorClassMaillon->getObject();
 
+		Contrainte* currentConstraint;
 		while(loop < nbSommets) {
-			cout << "loop : " << loop << " sommetnb" <<nbSommets <<endl;
+			cout << endl << endl << "-------------loop : " << loop  << "-------------"<< endl << endl;
 			mustRestart = false;
 
-			Contrainte* currentConstraint = currentColorClass[loop].getContraintes();
+			currentConstraint = &(currentColorClass->getContraintes())[loop];
 
-			cout << "currentConstraint->getEtage2() " << currentConstraint->getEtage2()  << endl;
+			cout << "currentConstraint: " << *currentConstraint << endl;
+			assert(currentConstraint != NULL);
+
+
 			if(currentConstraint->getEtage2() != NULL) {
 				etage2 = currentConstraint->getEtage2();
 
 				currentEtage2ListColorMaillon = etage2->getListColor().begin();
 
-				// TODO : Traiter le dernier !!!
+
 				while(currentEtage2ListColorMaillon != NULL) {
-					cout << "lwhile(currentEtage2ListColorMaillon != NULL)" << endl;
 					ambiguous = false;
 
 					if(currentConstraint->getEtage1() != NULL) {
@@ -81,14 +83,15 @@ void ColorClassProblem::resolve(string charpente) {
 
 						// TODO : Traiter le dernier !!!
 						while(currentEtage1ListColorMaillon != NULL) {
-							cout << "lwhile(currentEtage1ListColorMaillon != NULL)" << endl;
 							if(!isDifferent(*currentColorClass, currentEtage1ListColorMaillon->getObject(),currentEtage2ListColorMaillon->getObject())) {
+								cout << "calling new colorclass with: loop:" << loop << "somSearch" << rowToSommet[loop] << " replaceSom:" << currentEtage2ListColorMaillon->getObject();
 								ColorClass * newColorClass = new ColorClass(rowToSommet,
 																			sommetToRow,
 																			nbSommets,
 																			*currentColorClass,
 																			rowToSommet[loop],
 																			currentEtage2ListColorMaillon->getObject());
+
 								colorClasses.insert(newColorClass, colorClassIndex);
 
 								ambiguous = true;
@@ -101,14 +104,15 @@ void ColorClassProblem::resolve(string charpente) {
 						}
 
 						if(!ambiguous) {
+							cout << "not AMBIGUOUS" << endl;
 							etage1->set(currentEtage2ListColorMaillon->getObject());
 							etage2->reset(currentEtage2ListColorMaillon->getObject());
 						}
+
 					}
 
 					currentEtage2ListColorMaillon = currentEtage2ListColorMaillon->getNext();
-
-
+					//cout << "FIN BOUCLE" << endl;
 				}
 			}
 
@@ -127,8 +131,11 @@ void ColorClassProblem::resolve(string charpente) {
 }
 
 bool ColorClassProblem::isDifferent(ColorClass & currentColorClass, unsigned int som1, unsigned int som2) {
-	unsigned int row1 = sommetToRow[som1] - 1;
-	unsigned int row2 = sommetToRow[som2] - 1;
+	unsigned int row1 = sommetToRow[som1];
+	unsigned int row2 = sommetToRow[som2];
+
+	cout << "isDifferent: with sommets : " << som1 << " & " << som2 << endl;
+	cout << "isDifferent: ROW: " << row1 << " & " << row2 << endl;
 
 	assert (som1 < nbSommets);
 	assert (som2 < nbSommets);
@@ -136,6 +143,9 @@ bool ColorClassProblem::isDifferent(ColorClass & currentColorClass, unsigned int
 	assert (row2 < nbSommets);
 
 	if(row1 > row2) {
+		cout << "isDifferent: case   row1 > row2" << endl;
+		cout << "on doit inserer sommet de rang minimum : " << row2 << " dans etage2 de rang superieur : " << row1 << endl;
+		cout << "donc : " << som2 << " dans etage2 de : " << som1 << endl;
 		Etage* etage1 = currentColorClass.getContraintes()[row1].getEtage1();
 		Etage* etage2 = currentColorClass.getContraintes()[row1].getEtage2();
 
@@ -143,24 +153,33 @@ bool ColorClassProblem::isDifferent(ColorClass & currentColorClass, unsigned int
 		assert(etage2 != NULL);
 
 		if(etage1->getBitsetColor()[som2] || etage2->getBitsetColor()[som2]) {
+			cout << "isDifferent : already set in etage1 or 2. nothing to do" << endl;
 			return true;
 		}
 		else{
+			cout << "isDifferent : not set in etage1 or 2. inserting "<< som2 << "into etage2 of " << som1 << endl;
+
 			etage2->set(som2);
 			return false;
 		}
 	}
 	else {
+		cout << "isDifferent: case   row1 <= row2" << endl;
+
 		Etage* etage1 = currentColorClass.getContraintes()[row2].getEtage1();
 		Etage* etage2 = currentColorClass.getContraintes()[row2].getEtage2();
 
+		cout << "isdifferent : etage1: " << *etage1 << endl;
+		cout << "isdifferent : etage2: " << *etage2 << endl << endl;
 		assert(etage1 != NULL);
 		assert(etage2 != NULL);
 
 		if(etage1->getBitsetColor()[som1] || etage2->getBitsetColor()[som1]) {
+			cout << "========true" << endl;
 			return true;
 		}
 		else{
+			cout << "========false" << endl;
 			etage2->set(som1);
 			return false;
 		}
@@ -190,7 +209,10 @@ void ColorClassProblem::buildProblem(string charpenteFile) {
 	sommetToRow[7-1] = 6;
 
 
+	cout << "---------building problem --------------" <<endl;
 	ColorClass* colorClasse = new ColorClass(nbSommets);
+
+	//cout << "---------colorClasse* " << colorClasse << "--------------" <<endl;
 	unsigned int indice;
 	for(indice = 0; indice < nbSommets ; indice++) {
 		//cout << "\n\n=========setting nbSommet to " << nbSommets << " for contrainte nb:" << indice << endl;
@@ -234,39 +256,41 @@ void ColorClassProblem::buildProblem(string charpenteFile) {
 			break;
 		}
 
+
 		colorClasse->getContraintes()[indice].setNbSommet(nbSommets,etage1, etage2);
 
 	}
-
 	colorClasses.pushBack(colorClasse);
+	cout << "---------END OF BUILDER--------------" <<endl;
 }
 
 ostream& operator<<(ostream& out ,  ColorClassProblem& problem ) {
-	unsigned int indiceContrainte;
+	//unsigned int indiceContrainte;
 	unsigned int indiceColorClasse = 0;
 
-	out << "PROBLEM :nbSommet : " << problem.nbSommets << endl;
+	//out << "PROBLEM :nbSommet : " << problem.nbSommets << endl;
 
 	/* affichage des rangs des sommets */
-	for(indiceContrainte = 0; indiceContrainte < problem.nbSommets ; ++indiceContrainte) {
+	/*for(indiceContrainte = 0; indiceContrainte < problem.nbSommets ; ++indiceContrainte) {
 		out << "\trow[" << indiceContrainte << "] :" << problem.rowToSommet.at(indiceContrainte) << endl;
 	}
-
+*/
 	/* affichage des sommets vers les indexs */
-	for(indiceContrainte = 0; indiceContrainte < problem.nbSommets ; ++indiceContrainte) {
+	/*for(indiceContrainte = 0; indiceContrainte < problem.nbSommets ; ++indiceContrainte) {
 		out << "\trow[" << indiceContrainte << "] :" << problem.sommetToRow.at(indiceContrainte) << endl;
-	}
+	}*/
 
 	/* affichage de toutes les contraintes */
-	 //
 	Maillon<ColorClass*>* currentColorClassMaillon = problem.colorClasses.begin();
 	// TODO : Traiter le dernier !!!
+	cout << endl <<endl <<endl <<endl <<endl;
 	while(currentColorClassMaillon != NULL) {
 		out << "ColorClasse Num " << indiceColorClasse << ": " <<endl;
 		out << *(currentColorClassMaillon->getObject()) << endl;
 		currentColorClassMaillon = currentColorClassMaillon->getNext();
 		indiceColorClasse++;
 	}
+	cout << endl <<endl <<endl <<endl <<endl;
 
 	return out;
 }

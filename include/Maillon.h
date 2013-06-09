@@ -9,6 +9,11 @@
 #define MAILLON_H_
 
 #include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+
+using namespace std;
 
 template<typename T>
 class Maillon {
@@ -23,12 +28,12 @@ public:
 	void setObject(T t);
 	Maillon* getNext();
 	void setNext(Maillon<T>* maillon);
+
 };
 
 
 template <typename T>
 Maillon<T>::Maillon() {
-	//object = NULL;
 	next = NULL;
 }
 
@@ -62,5 +67,20 @@ template<typename T>
 void Maillon<T>::setNext(Maillon<T>* maillon) {
 	next = maillon;
 }
+
+
+
+
+template<typename T>
+ostream& operator<<(ostream& out, Maillon<T> & maillon) {
+	if(maillon == NULL) {
+		out << "NULL" << endl;
+	}
+	else {
+		out << maillon.getObject() << " " ;
+	}
+	return  out;
+}
+
 
 #endif /* MAILLON_H_ */

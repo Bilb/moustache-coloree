@@ -23,18 +23,25 @@ Etage::~Etage() {
 
 
 void Etage::set(unsigned int indice) {
+
+	//cout << "trying to set indice: "<< indice << endl;
 	assert(indice < nbSommet);
 
+
+	//cout << bitsetColor << endl;
 	if(!bitsetColor[indice]) {
+		//	cout << "not already set" << endl;
 		bitsetColor.set(indice);
 		listColor.pushBack(indice);
 	}
+	//cout << "sortie set" << endl;
 }
 
 
 
 
 void Etage::reset(unsigned int indice) {
+	//cout << "entree reset" << endl;
 	assert(indice < nbSommet);
 
 	if(bitsetColor[indice]) {
@@ -42,10 +49,13 @@ void Etage::reset(unsigned int indice) {
 		listColor.removeAllOccurences(indice);
 	}
 
+	//	cout << "sortie reset" << endl;
+
 }
 
 
 ostream& operator<<(ostream& out , const Etage& etage ) {
 	out << "nbSommets: " << etage.nbSommet << " values:" << etage.bitsetColor;
+	//etage.getListColor().print();
 	return out;
 }
