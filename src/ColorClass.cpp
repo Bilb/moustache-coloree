@@ -37,8 +37,6 @@ ColorClass::ColorClass(map<unsigned int, unsigned int> &rowToSommet, map<unsigne
 	contraintes = new Contrainte[nbSommet]();
 	unsigned int indice;
 
-	cout << "\t\t\tcopying class & replace : nbSommet: "  << nbSommet << endl;
-	std::cin.get();
 	for(indice = 0; indice < nbSommet ; ++indice) {
 		cout << "+++++++++++++++++++++++++ setting by magic copy " << indice <<endl;
 		contraintes[indice].setByMagic(rowToSommet, sommetToRow, nbSommet,indice, src.contraintes[indice], somSearch, somReplace);
@@ -47,8 +45,6 @@ ColorClass::ColorClass(map<unsigned int, unsigned int> &rowToSommet, map<unsigne
 
 
 ostream& operator<<(ostream& out , const ColorClass& colorClass ) {
-	out << "nbSommets: " << colorClass.nbSommet << endl;
-
 	unsigned int indice;
 
 	if(colorClass.nbSommet > 0) {

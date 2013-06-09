@@ -42,27 +42,44 @@ void ColorClassProblem::resolve(string charpente) {
 	bool ambiguous;
 	bool mustRestart;
 
+
+
+
 	Maillon<ColorClass*>* currentColorClassMaillon = colorClasses.begin();
 	Maillon<unsigned int>* currentEtage1ListColorMaillon;
 	Maillon<unsigned int>* currentEtage2ListColorMaillon;
 	ColorClass* currentColorClass = currentColorClassMaillon->getObject();
+
+
 	Etage* etage1;
 	Etage* etage2;
 
 
 
 
+
 	// TODO : Traiter le dernier !!!
 	while(currentColorClassMaillon != NULL) {
+		cout << "=======================================================================================================" << endl;
+		cout << "===============================colorClassIndex : " << colorClassIndex
+				<< "========================================" << endl;
+		cout <<  "=======================================================================================================" << endl;
+		cout << "=======================================================================================================" << endl;
 		currentColorClass = currentColorClassMaillon->getObject();
+
+
+		cout << "current Color Classe: " << *currentColorClassMaillon->getObject() << endl;
 
 		Contrainte* currentConstraint;
 		loop = 0;
 		while(loop < nbSommets) {
 			cout << endl << endl << "-------------loop : " << loop  << "-------------"<< endl << endl;
+
+
 			mustRestart = false;
 
 			currentConstraint = &(currentColorClass->getContraintes())[loop];
+
 
 			cout << "currentConstraint: " << *currentConstraint << endl;
 			assert(currentConstraint != NULL);
@@ -88,7 +105,7 @@ void ColorClassProblem::resolve(string charpente) {
 						while(currentEtage1ListColorMaillon != NULL) {
 							if(!isDifferent(*currentColorClass, currentEtage1ListColorMaillon->getObject(),currentEtage2ListColorMaillon->getObject())) {
 								unsigned int search = getSomWithMaxRow(currentEtage1ListColorMaillon->getObject(),currentEtage2ListColorMaillon->getObject());
-								cout << "calling new colorclass with: loop:" << loop << "somSearch" << search << " replaceSom:" << currentEtage2ListColorMaillon->getObject();
+								//cout << "calling new colorclass with: loop:" << loop << "somSearch" << search << " replaceSom:" << currentEtage2ListColorMaillon->getObject();
 								ColorClass * newColorClass = new ColorClass(rowToSommet,
 										sommetToRow,
 										nbSommets,
@@ -99,8 +116,8 @@ void ColorClassProblem::resolve(string charpente) {
 								colorClasses.insert(newColorClass, colorClassIndex);
 								ambiguous = true;
 								mustRestart = true;
-								cout << "              new colorclass added : : " << *newColorClass << endl;
-								cout << "===========================" <<endl;
+								//	cout << "              new colorclass added : : " << *newColorClass << endl;
+								//	cout << "===========================" <<endl;
 							}
 
 							currentEtage1ListColorMaillon = currentEtage1ListColorMaillon->getNext();
@@ -138,52 +155,42 @@ bool ColorClassProblem::isDifferent(ColorClass & currentColorClass, unsigned int
 	unsigned int row1 = sommetToRow[som1];
 	unsigned int row2 = sommetToRow[som2];
 
-	cout << "isDifferent: with sommets : " << som1 << " & " << som2 << endl;
-	cout << "isDifferent: ROW: " << row1 << " & " << row2 << endl;
 
 	assert (som1 < nbSommets);
 	assert (som2 < nbSommets);
 	assert (row1 < nbSommets);
 	assert (row2 < nbSommets);
+	if(som1 == som2)
+		return true;
 
 	if(row1 > row2) {
-		cout << "isDifferent: case   row1 > row2" << endl;
-		cout << "on doit inserer sommet de rang minimum : " << row2 << " dans etage2 de rang superieur : " << row1 << endl;
-		cout << "donc : " << som2 << " dans etage2 de : " << som1 << endl;
 		Etage* etage1 = currentColorClass.getContraintes()[row1].getEtage1();
 		Etage* etage2 = currentColorClass.getContraintes()[row1].getEtage2();
 
 		assert(etage1 != NULL);
 		assert(etage2 != NULL);
 
+
 		if(etage1->getBitsetColor()[som2] || etage2->getBitsetColor()[som2]) {
-			cout << "isDifferent : already set in etage1 or 2. nothing to do" << endl;
 			return true;
 		}
 		else{
-			cout << "isDifferent : not set in etage1 or 2. inserting "<< som2 << "into etage2 of " << som1 << endl;
-
 			etage2->set(som2);
 			return false;
 		}
 	}
 	else {
-		cout << "isDifferent: case   row1 <= row2" << endl;
 
 		Etage* etage1 = currentColorClass.getContraintes()[row2].getEtage1();
 		Etage* etage2 = currentColorClass.getContraintes()[row2].getEtage2();
 
-		cout << "isdifferent : etage1: " << *etage1 << endl;
-		cout << "isdifferent : etage2: " << *etage2 << endl << endl;
 		assert(etage1 != NULL);
 		assert(etage2 != NULL);
 
 		if(etage1->getBitsetColor()[som1] || etage2->getBitsetColor()[som1]) {
-			cout << "========true" << endl;
 			return true;
 		}
 		else{
-			cout << "========false" << endl;
 			etage2->set(som1);
 			return false;
 		}
