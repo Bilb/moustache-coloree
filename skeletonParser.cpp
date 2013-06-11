@@ -19,6 +19,7 @@ namespace spirit = boost::spirit;
 
 
 namespace boost { namespace spirit { namespace traits {
+
 template <typename T>
 struct container_value<SimpleLinkList<T>, void> {
 	typedef T type;
@@ -31,31 +32,29 @@ struct push_back_container<SimpleLinkList<T>, T, void> {
 		return true;
 	}
 };
+
 }}}
 
 struct rowType
 {
 	unsigned int number;
-	SimpleLinkList<unsigned int> list1, list2;
+	SimpleLinkList<unsigned int> etage1, etage2;
 };
 
-BOOST_FUSION_ADAPT_STRUCT(rowType, (unsigned int, number)(SimpleLinkList<unsigned int>, list1)(SimpleLinkList<unsigned int>, list2))
-
-
-
+BOOST_FUSION_ADAPT_STRUCT(rowType, (unsigned int, number)(SimpleLinkList<unsigned int>, etage1)(SimpleLinkList<unsigned int>, etage2))
 
 template<typename Iterator>
 struct parser_expression : qi::grammar<Iterator, rowType(), qi::space_type>
 {
 	parser_expression() : parser_expression::base_type(start)
 	{
-		list  = '[' >> -(qi::int_ % ',') >> ']';
-		start = qi::int_ >> list >> -list >> '=';
+		etage  = '[' >> -(qi::int_ % ',') >> ']';
+		start = qi::int_ >> etage >> -etage >> '=';
 
 	}
 
-	qi::rule<Iterator, rowType(),    qi::space_type> start;
-	qi::rule<Iterator, SimpleLinkList<unsigned int>(), qi::space_type> list;
+	qi::rule<Iterator, rowType(), qi::space_type> start;
+	qi::rule<Iterator, SimpleLinkList<unsigned int>(), qi::space_type> etage;
 };
 
 
@@ -87,15 +86,13 @@ void test(const std::string input)
 	bool ok = qi::phrase_parse(f, l, p, qi::space, parsed);
 
 	if (ok)
-		std::cout << "Result: " << parsed.number << " " << parsed.list1 << parsed.list2 << std::endl;
+		std::cout << "Result: " << parsed.number << " " << parsed.etage1 << parsed.etage2 << std::endl;
 	else
 		std::cout << "Parse failed\n";
 
 	if (f!=l)
 		std::cout << "Unparsed: '" << std::string(f,l) << "'\n";
 }
-
-
 
 int main()
 {
