@@ -6,13 +6,15 @@
  */
 
 
-//#define BOOST_SPIRIT_DEBUG
+#define BOOST_SPIRIT_DEBUG
 #include <boost/fusion/adapted.hpp>
 #include <boost/spirit/include/qi.hpp>
 #include <boost/spirit/include/phoenix.hpp>
 
 #include  "include/Maillon.h"
 #include  "include/SimpleLinkList.h"
+
+
 
 
 namespace qi = boost::spirit::qi;
@@ -40,7 +42,14 @@ struct rowType
 	SimpleLinkList<unsigned int> list1, list2;
 };
 
+struct problemType
+{
+	unsigned int nbSommet;
+	//SimpleLinkList<unsigned int> list1, list2;
+};
+
 BOOST_FUSION_ADAPT_STRUCT(rowType, (unsigned int, number)(SimpleLinkList<unsigned int>, list1)(SimpleLinkList<unsigned int>, list2))
+BOOST_FUSION_ADAPT_STRUCT(problemType, (unsigned int, nbSommet))
 
 
 
@@ -51,7 +60,8 @@ struct parser_expression : qi::grammar<Iterator, rowType(), qi::space_type>
 	parser_expression() : parser_expression::base_type(start)
 	{
 		list  = '[' >> -(qi::int_ % ',') >> ']';
-		start = qi::int_ >> list >> -list >> '=';
+		start = qi::int_ >> list >> -list;
+
 
 	}
 
@@ -62,21 +72,24 @@ struct parser_expression : qi::grammar<Iterator, rowType(), qi::space_type>
 
 
 
-/*template<typename Iterator>
-struct problem_parser : qi::grammar<Iterator, qi::space_type>
+template<typename Iterator>
+struct problem_parser : qi::grammar<Iterator,problemType(), qi::space_type >
 {
 
 	problem_parser() : problem_parser::base_type(start)
 	{
 		using qi::_val;
+		using qi::_a;
+		using qi::eps;
 		using boost::phoenix::bind;
-		using boost::spirit::eps;
-		start = eps[_val=0] >> qi::int_ >> +row_parser[_val+=1];
+
+		start = qi::int_ >> '_' >> +(row_parser);
+		//BOOST_SPIRIT_DEBUG_NODE(start);
 	}
 
-	qi::rule<Iterator, qi::space_type> start;
+	qi::rule<Iterator, problemType(), qi::space_type> start;
 	parser_expression<Iterator> row_parser;
-};*/
+};
 
 
 void test(const std::string input)
@@ -87,8 +100,9 @@ void test(const std::string input)
 	std::string::const_iterator f(input.begin()), l(input.end());
 	bool ok = qi::phrase_parse(f, l, p, qi::space, parsed);
 
+
 	if (ok)
-		std::cout << "Result: " << parsed.number << " " << parsed.list1 << parsed.list2 << std::endl;
+		std::cout << "Result: " ;//<< parsed.number << " " << parsed.list1 << parsed.list2 << std::endl;
 	else
 		std::cout << "Parse failed\n";
 
@@ -98,10 +112,30 @@ void test(const std::string input)
 
 
 
+void test_pb(const std::string input)
+{
+
+	static const problem_parser<std::string::const_iterator> p;
+
+	problemType pb;
+
+	std::string::const_iterator f(input.begin()), l(input.end());
+	bool ok = qi::phrase_parse(f, l, p, qi::space, pb);
+
+	if (ok)
+		std::cout << "Result: "  << pb.nbSommet;//<< parsed.number << " " << parsed.list1 << parsed.list2 << std::endl;
+	else
+		std::cout << "Parse failed\n";
+
+	if (f!=l)
+		std::cout << "Unparsed: '" << std::string(f,l) << "'\n";
+}
+
+
 int main()
 {
-	test("1 [2, 3, 4] [5, 6] =");
-	test("2 []        [6, 7] =");
-    test("3 [4, 5, 6] [    ] =");
-    test("4 [5, 6, 7]        =");
+	test_pb("9_ 1 [2, 3, 4] [5, 6]");
+	/*test("2 []        [6, 7] =");
+	test("3 [4, 5, 6] [    ] =");
+	test("4 [5, 6, 7]        =");*/
 }
