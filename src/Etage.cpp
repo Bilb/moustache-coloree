@@ -38,6 +38,12 @@ void Etage::set(unsigned int indice) {
 }
 
 
+bool Etage::test(unsigned int indice) {
+	if(!bitsetColor[indice]) {
+		return false;
+	}
+	return true;
+}
 
 
 void Etage::reset(unsigned int indice) {

@@ -18,6 +18,7 @@
 class Etage {
 private:
 	unsigned int nbSommet;
+
 	boost::dynamic_bitset<> bitsetColor;
 	SimpleLinkList<unsigned int> listColor;
 
@@ -25,7 +26,7 @@ public:
 	Etage(unsigned int nbSommet_);
 
 	SimpleLinkList<unsigned int> getListColor() const { return listColor;}
-	boost::dynamic_bitset<> getBitsetColor() { return bitsetColor;}
+	//boost::dynamic_bitset<> getBitsetColor() { return bitsetColor;}
 
 
 	/**
@@ -35,7 +36,12 @@ public:
 	void set(unsigned int indice);
 
 	/**
-	 * Met à false l'indice correspondant au sommet indice -1
+	 * test si le sommet (indice -1) est à true ou non.
+	 */
+	bool test(unsigned int indice);
+
+	/**
+	 * Met à false l'indice correspondant au sommet (indice -1)
 	 * Note : on commence les indices à 0!
 	 */
 	void reset(unsigned int indice);

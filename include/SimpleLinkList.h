@@ -9,6 +9,7 @@
 #define SIMPLELINKLIST_H_
 
 #include <iostream>
+#include <boost/lexical_cast.hpp>
 
 #include "Maillon.h"
 
@@ -30,7 +31,26 @@ public:
 
 
 
-	void print() const;
+
+	friend ostream& operator<<(ostream& out, SimpleLinkList<T>& list)
+	    {
+			Maillon<T> * current = list.begin();
+
+			//std::string str = "[ ";
+			out << "[ ";
+			while(current != NULL) {
+
+				out << boost::lexical_cast<string>( current->getObject() );
+				if(current->getNext() != NULL) {
+					out << ", ";
+				}
+
+				current = current->getNext();
+			}
+			out << "]";
+
+	    	return out;
+	    }
 };
 
 
@@ -69,6 +89,7 @@ Maillon<T>* SimpleLinkList<T>::end() {
 
 template<typename T>
 void SimpleLinkList<T>::pushBack(T t) {
+
 	Maillon<T>* maillon = new Maillon<T>();
 	maillon->setNext(NULL);
 	maillon->setObject(t);
@@ -126,19 +147,9 @@ void SimpleLinkList<T>::removeAllOccurences(T value) {
 	}
 }
 
-template<typename T>
-void SimpleLinkList<T>::print() const {
-	Maillon<int>* current = begin();
-	if(current != NULL) {
-		while(current != NULL) {
-			cout << "\n\t\t\titem " << current->getObject() << endl;
-			current = current->getNext();
-		}
-	}
-	else {
-		cout << "\t\t\tNULL" << endl;
-	}
-}
+
+
+
 
 
 

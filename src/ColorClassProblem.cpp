@@ -171,7 +171,7 @@ bool ColorClassProblem::isDifferent(ColorClass & currentColorClass, unsigned int
 		assert(etage2 != NULL);
 
 
-		if(etage1->getBitsetColor()[som2] || etage2->getBitsetColor()[som2]) {
+		if(etage1->test(som2) || etage2->test(som2)) {
 			return true;
 		}
 		else{
@@ -187,7 +187,7 @@ bool ColorClassProblem::isDifferent(ColorClass & currentColorClass, unsigned int
 		assert(etage1 != NULL);
 		assert(etage2 != NULL);
 
-		if(etage1->getBitsetColor()[som1] || etage2->getBitsetColor()[som1]) {
+		if(etage1->test(som1) || etage2->test(som1)) {
 			return true;
 		}
 		else{
