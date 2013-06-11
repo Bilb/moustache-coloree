@@ -14,7 +14,6 @@
 #include  "include/Maillon.h"
 #include  "include/SimpleLinkList.h"
 
-
 namespace qi = boost::spirit::qi;
 namespace spirit = boost::spirit;
 
