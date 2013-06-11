@@ -28,10 +28,10 @@
 namespace qi = boost::spirit::qi;
 namespace fusion = boost::fusion;
 
-/*
+
 int main(int argc, char* argv[]) {
 
-	string test("test");
+	string test("./test.txt");
 	ColorClassProblem problem(test);
 
 	cout << "problem INITIAL" << problem << endl;
@@ -43,4 +43,4 @@ int main(int argc, char* argv[]) {
 	return 0;
 }
 
-*/
+

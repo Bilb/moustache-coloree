@@ -11,9 +11,15 @@
 #include <boost/spirit/include/qi.hpp>
 #include <boost/spirit/include/phoenix.hpp>
 
+#include <iterator>
+#include <boost/spirit/include/qi.hpp>
+#include <boost/spirit/include/support_multi_pass.hpp>
+
 #include <vector>
+#include <fstream>
 
 #include  "include/Maillon.h"
+#include  "include/ColorClass.h"
 #include  "include/SimpleLinkList.h"
 
 
@@ -38,6 +44,9 @@ struct push_back_container<SimpleLinkList<T>, T, void> {
 
 }}}
 
+
+
+
 struct rowType
 {
 	unsigned int number;
@@ -52,15 +61,17 @@ struct problemType
 	//SimpleLinkList<unsigned int> list1, list2;
 };
 
+
+
 BOOST_FUSION_ADAPT_STRUCT(rowType, (unsigned int, number)(SimpleLinkList<unsigned int>, etage1)(SimpleLinkList<unsigned int>, etage2))
 BOOST_FUSION_ADAPT_STRUCT(problemType, (unsigned int, nbSommet)(std::vector<rowType>, rows))
 
 
 
 template<typename Iterator>
-struct parser_expression : qi::grammar<Iterator, rowType(), qi::space_type>
+struct row_parser : qi::grammar<Iterator, rowType(), qi::space_type>
 {
-	parser_expression() : parser_expression::base_type(start)
+	row_parser() : row_parser::base_type(start)
 	{
 
 		etage  = '[' >> -(qi::int_ % ',') >> ']';
@@ -90,74 +101,55 @@ struct problem_parser : qi::grammar<Iterator,problemType(), qi::space_type >
 	}
 
 	qi::rule<Iterator, problemType(), qi::space_type> start;
-	parser_expression<Iterator> row_parser;
+	row_parser<Iterator> row_parser;
 };
 
 
-void test(const std::string input)
+
+
+bool parseFile(const std::string charpenteFile, problemType& pb)
 {
-	static const parser_expression<std::string::const_iterator> p;
+	typedef std::istream_iterator<char> base_iterator_type;
+	static const problem_parser<spirit::multi_pass<base_iterator_type> > p;
+	namespace spirit = boost::spirit;
+	using spirit::ascii::space;
+	using spirit::ascii::char_;
+	using spirit::qi::double_;
+	using spirit::qi::eol;
 
-	rowType parsed;
-	std::string::const_iterator f(input.begin()), l(input.end());
-	bool ok = qi::phrase_parse(f, l, p, qi::space, parsed);
-
-
-	if (ok)
-
-		std::cout << "Result: " << parsed.number << " " << parsed.etage1 << parsed.etage2 << std::endl;
-	else
-		std::cout << "Parse failed\n";
-
-	if (f!=l)
-		std::cout << "Unparsed: '" << std::string(f,l) << "'\n";
-}
-
-
-
-bool test_pb(const std::string input, problemType& pb)
-{
-
-	static const problem_parser<std::string::const_iterator> p;
+	//std::ifstream in("D:\\multi_pass.txt");
+	std::ifstream in(charpenteFile.c_str());
+	if (!in.is_open()) {
+		std::cout << "Could not open input file: '" << charpenteFile << "'" <<
+				std::endl;
+		return false;
+	}
 
 
 
-	std::string::const_iterator f(input.begin()), l(input.end());
-	bool ok = qi::phrase_parse(f, l, p, qi::space, pb);
+	spirit::multi_pass<base_iterator_type> first = spirit::make_default_multi_pass(base_iterator_type(in));
+	spirit::multi_pass<base_iterator_type> last = spirit::make_default_multi_pass(base_iterator_type());
 
-	if (ok && f == l) {
-		//std::cout << "Result: "  << pb.nbSommet << " row: " << pb.rows.at(0).number << " " << pb.rows.at(1).etage1;
+
+	bool ok = spirit::qi::phrase_parse(first, last ,
+			p
+			,  qi::space
+			, pb);
+
+	if (ok && first == last) {
 		return true;
 	}
 	else
-		std::cout << "Parse failed\n";
+		std::cout << "Parse of input file failed\n";
 
-	if (f!=l)
-		std::cout << "Unparsed: '" << std::string(f,l) << "'\n";
+	if (first!=last)
+		std::cout << "Unparsed: '" << std::string(first,last) << "'\n";
 
 	return false;
 }
 
 
-int main()
-{
-	problemType pb;
-	if (test_pb("9_ 1 [2, 3, 4] [5, 6] 1 [22, 33, 44] [5, 6]", pb)) {
-		std::cout << "Result: "  << pb.nbSommet << " row: " << pb.rows.at(0).number << " " << pb.rows.at(1).etage1;
-	}
-
-	unsigned int nbSommet = pb.nbSommet;
-
-	for(int indice = 0; indice < nbSommet ; indice++) {
-		Etage* etage1 = new Etage(nbSommet);
-		etage1->setListColor(pb.rows.at(indice).etage1);
+//std::string::const_iterator f(input.begin()), l(input.end());
+//bool ok = qi::phrase_parse(f, l, p, qi::space, pb);
 
 
-	}
-
-
-
-	/*test("2 []        [6, 7] =");
-	test("3 [4, 5, 6] [    ] =");
-	test("4 [5, 6, 7]        =");*/
-}

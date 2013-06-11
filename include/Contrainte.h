@@ -47,7 +47,7 @@ public:
 	/**
 	 * set etage1 & 2 with specific etages.
 	 */
-	void setNbSommet(unsigned int nbSommet, Etage* etage1_, Etage* etage2_);
+	void setParams(unsigned int nbSommet, Etage* etage1_, Etage* etage2_);
 
 	friend ostream& operator<<(ostream& out , Contrainte& cont );
 	virtual ~Contrainte();

@@ -183,7 +183,7 @@ void Contrainte::setByMagic(map<unsigned int, unsigned int> &rowToSommet, map<un
 	}
 
 
-	void Contrainte::setNbSommet(unsigned int nbSommet_, Etage* etage1_, Etage* etage2_)
+	void Contrainte::setParams(unsigned int nbSommet_, Etage* etage1_, Etage* etage2_)
 	{
 		nbSommet = nbSommet_;
 		if(etage1)

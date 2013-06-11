@@ -47,16 +47,23 @@ bool Etage::test(unsigned int indice) {
 
 
 void Etage::reset(unsigned int indice) {
-	//cout << "entree reset" << endl;
 	assert(indice < nbSommet);
 
 	if(bitsetColor[indice]) {
 		bitsetColor.reset(indice);
 		listColor.removeAllOccurences(indice);
 	}
+}
 
-	//	cout << "sortie reset" << endl;
 
+
+void Etage::setFromList(SimpleLinkList<unsigned int> list) {
+	//listColor = list;
+	Maillon<unsigned int>* current = list.begin();
+	while(current != NULL) {
+		set(current->getObject() - 1);
+		current = current->getNext();
+	}
 }
 
 

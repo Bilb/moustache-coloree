@@ -27,7 +27,7 @@ public:
 
 	SimpleLinkList<unsigned int> getListColor() const { return listColor;}
 
-	void setListColor(SimpleLinkList<unsigned int> list) const { listColor = list;}
+	void setFromList(SimpleLinkList<unsigned int> list);
 
 
 	/**
