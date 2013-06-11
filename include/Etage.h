@@ -26,7 +26,8 @@ public:
 	Etage(unsigned int nbSommet_);
 
 	SimpleLinkList<unsigned int> getListColor() const { return listColor;}
-	//boost::dynamic_bitset<> getBitsetColor() { return bitsetColor;}
+
+	void setListColor(SimpleLinkList<unsigned int> list) const { listColor = list;}
 
 
 	/**
@@ -45,6 +46,8 @@ public:
 	 * Note : on commence les indices à 0!
 	 */
 	void reset(unsigned int indice);
+
+
 
 	friend std::ostream& operator<<(std::ostream& out , const Etage& etage );
 

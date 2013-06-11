@@ -11,6 +11,8 @@
 #include <boost/spirit/include/qi.hpp>
 #include <boost/spirit/include/phoenix.hpp>
 
+#include <vector>
+
 #include  "include/Maillon.h"
 #include  "include/SimpleLinkList.h"
 
@@ -46,11 +48,12 @@ struct rowType
 struct problemType
 {
 	unsigned int nbSommet;
+	std::vector<rowType> rows;
 	//SimpleLinkList<unsigned int> list1, list2;
 };
 
 BOOST_FUSION_ADAPT_STRUCT(rowType, (unsigned int, number)(SimpleLinkList<unsigned int>, etage1)(SimpleLinkList<unsigned int>, etage2))
-BOOST_FUSION_ADAPT_STRUCT(problemType, (unsigned int, nbSommet))
+BOOST_FUSION_ADAPT_STRUCT(problemType, (unsigned int, nbSommet)(std::vector<rowType>, rows))
 
 
 
@@ -61,7 +64,7 @@ struct parser_expression : qi::grammar<Iterator, rowType(), qi::space_type>
 	{
 
 		etage  = '[' >> -(qi::int_ % ',') >> ']';
-		start = qi::int_ >> etage >> -etage >> '=';
+		start = qi::int_ >> etage >> -etage;
 	}
 
 	qi::rule<Iterator, rowType(), qi::space_type> start;
@@ -112,29 +115,48 @@ void test(const std::string input)
 
 
 
-void test_pb(const std::string input)
+bool test_pb(const std::string input, problemType& pb)
 {
 
 	static const problem_parser<std::string::const_iterator> p;
 
-	problemType pb;
+
 
 	std::string::const_iterator f(input.begin()), l(input.end());
 	bool ok = qi::phrase_parse(f, l, p, qi::space, pb);
 
-	if (ok)
-		std::cout << "Result: "  << pb.nbSommet;//<< parsed.number << " " << parsed.list1 << parsed.list2 << std::endl;
+	if (ok && f == l) {
+		//std::cout << "Result: "  << pb.nbSommet << " row: " << pb.rows.at(0).number << " " << pb.rows.at(1).etage1;
+		return true;
+	}
 	else
 		std::cout << "Parse failed\n";
 
 	if (f!=l)
 		std::cout << "Unparsed: '" << std::string(f,l) << "'\n";
+
+	return false;
 }
 
 
 int main()
 {
-	test_pb("9_ 1 [2, 3, 4] [5, 6]");
+	problemType pb;
+	if (test_pb("9_ 1 [2, 3, 4] [5, 6] 1 [22, 33, 44] [5, 6]", pb)) {
+		std::cout << "Result: "  << pb.nbSommet << " row: " << pb.rows.at(0).number << " " << pb.rows.at(1).etage1;
+	}
+
+	unsigned int nbSommet = pb.nbSommet;
+
+	for(int indice = 0; indice < nbSommet ; indice++) {
+		Etage* etage1 = new Etage(nbSommet);
+		etage1->setListColor(pb.rows.at(indice).etage1);
+
+
+	}
+
+
+
 	/*test("2 []        [6, 7] =");
 	test("3 [4, 5, 6] [    ] =");
 	test("4 [5, 6, 7]        =");*/
