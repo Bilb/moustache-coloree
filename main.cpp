@@ -41,11 +41,13 @@ int main(int argc, char* argv[]) {
 	//cout << "problem INITIAL" << problem << endl;
 	problem.resolve(test);
 
+	pt::ptime end = pt::microsec_clock::universal_time();
+
 	cout << "problem RESOLVED" << problem << endl;
 
 
 
-	pt::ptime end = pt::microsec_clock::universal_time();
+
 	pt::time_duration dur = end - start;
 
 

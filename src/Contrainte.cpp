@@ -63,12 +63,9 @@ void Contrainte::setByMagic(map<unsigned int, unsigned int> &rowToSommet, map<un
 
 		unsigned int rowSearch = sommetToRow[somSearch];
 
-		//cout << "MAGICK : somSearch : " << somSearch << " rowSearch" << rowSearch << " indice:" << indice << endl;
-
 		if(indice == rowSearch) {
 			//cas d'égalité : mettre une égalité
 			egalite = somReplace;
-			//cout << "egalite mise a " << egalite << endl;
 			if(etage1)
 				delete etage1;
 			if(etage2)
@@ -80,15 +77,11 @@ void Contrainte::setByMagic(map<unsigned int, unsigned int> &rowToSommet, map<un
 		}
 		else if( indice > rowSearch) {
 
-			//cout << "magick : copie MAGGICK des deux etages" << endl;
-
 			/* etage1 */
 			// parcourir la liste de etage1, si égale à search, faire un set(replace) (et mettre un bool à true), sinon faire un set de celui trouvé dans la liste
 			Etage* etg1Src = src.getEtage1();
 			Etage* etg2Src = src.getEtage2();
 
-			//cout << "etage1 to copy:"  << *etg1Src << endl;
-			//cout << "etage2 to copy:"  << *etg2Src << endl;
 
 
 			assert(etg1Src != NULL);
@@ -96,9 +89,7 @@ void Contrainte::setByMagic(map<unsigned int, unsigned int> &rowToSommet, map<un
 			bool isSetInEtage1 = false;
 
 			Maillon<unsigned int> * current = etg1Src->getListColor().begin();
-			cout << "" << endl;
 			while(current != NULL) {
-				//cout << "MAGICK : ETAGE1 search: " << somSearch << " current: "<< current->getObject() << " replace:" << somReplace << endl;
 				if(current->getObject() == somSearch) {
 
 					etage1->set(somReplace);
@@ -118,7 +109,6 @@ void Contrainte::setByMagic(map<unsigned int, unsigned int> &rowToSommet, map<un
 			// sinon, ajouter celui trouver dans l'etage2
 			current = etg2Src->getListColor().begin();
 			while(current != NULL) {
-				//cout << "MAGICK : ETAGE2 search: " << somSearch << " current: "<< current->getObject() << " replace:" << somReplace << endl;
 				if(current->getObject() == somSearch && !isSetInEtage1) {
 					etage2->set(somReplace);
 				}
@@ -131,13 +121,8 @@ void Contrainte::setByMagic(map<unsigned int, unsigned int> &rowToSommet, map<un
 
 		}
 		else {
-			//cout << "magick : copie simple des deux etages" << endl;
-
 			Etage* etg1Src = src.getEtage1();
 			Etage* etg2Src = src.getEtage2();
-
-			//	cout << "etage1 to copy:"  << *etg1Src << endl;
-			//	cout << "etage2 to copy:"  << *etg2Src << endl;
 
 			assert(etg1Src != NULL);
 			assert(etg2Src != NULL);
@@ -148,73 +133,67 @@ void Contrainte::setByMagic(map<unsigned int, unsigned int> &rowToSommet, map<un
 			/* etage1 */
 			Maillon<unsigned int> * current = etg1Src->getListColor().begin();
 			while(current != NULL) {
-				//cout << "setting etage1 to true : " << current->getObject() << endl;
 				etage1->set(current->getObject());
 				current = current->getNext();
 			}
 			/* etage2 */
 			current = etg2Src->getListColor().begin();
 			while(current != NULL) {
-				//cout << "setting etage2 to true : " << current->getObject() << endl;
 				etage2->set(current->getObject());
 				current = current->getNext();
 			}
 		}
 	}
 
-	//	cout << "en sortie du constructeur magic, on a la nouvelle contrainte qui vaut : " << endl;
-	//cout << *this << endl;
-	//	cout << "----------------------------------------------------------------------" << endl;
+}
 
+
+
+void Contrainte::setNbSommet(unsigned int nbSommet_)
+{
+	nbSommet = nbSommet_;
+	if(etage1)
+		delete etage1;
+	if(etage2)
+		delete etage2;
+
+	etage1 = new Etage(nbSommet);
+	etage2 = new Etage(nbSommet);
+}
+
+
+void Contrainte::setParams(unsigned int nbSommet_, Etage* etage1_, Etage* etage2_)
+{
+	nbSommet = nbSommet_;
+	if(etage1)
+		delete etage1;
+	if(etage2)
+		delete etage2;
+
+	etage1 = etage1_;
+	etage2 = etage2_;
+}
+
+
+ostream& operator<<(ostream& out ,  Contrainte& cont ) {
+	out << "\tnbSommets: " << cont.getNbSommet() << endl;
+
+	if(cont.egalite < cont.getNbSommet()) {
+		out << "\t\t\tegalite:" << cont.egalite << endl;
+	}
+	else {
+		if(cont.getEtage1()!= NULL)
+			out << "\t\tetage1: " << *cont.getEtage1() << endl;
+		else
+			out << "\t\tetage1: " << "NULL" << endl;
+
+		if(cont.getEtage2()!= NULL)
+			out << "\t\tetage2: " << *cont.getEtage2() << endl;
+		else
+			out << "\t\tetage2: " << "NULL" << endl;
 	}
 
 
-
-	void Contrainte::setNbSommet(unsigned int nbSommet_)
-	{
-		nbSommet = nbSommet_;
-		if(etage1)
-			delete etage1;
-		if(etage2)
-			delete etage2;
-
-		etage1 = new Etage(nbSommet);
-		etage2 = new Etage(nbSommet);
-	}
-
-
-	void Contrainte::setParams(unsigned int nbSommet_, Etage* etage1_, Etage* etage2_)
-	{
-		nbSommet = nbSommet_;
-		if(etage1)
-			delete etage1;
-		if(etage2)
-			delete etage2;
-
-		etage1 = etage1_;
-		etage2 = etage2_;
-	}
-
-
-	ostream& operator<<(ostream& out ,  Contrainte& cont ) {
-		out << "\tnbSommets: " << cont.getNbSommet() << endl;
-
-		if(cont.egalite < cont.getNbSommet()) {
-			out << "\t\t\tegalite:" << cont.egalite << endl;
-		}
-		else {
-			if(cont.getEtage1()!= NULL)
-				out << "\t\tetage1: " << *cont.getEtage1() << endl;
-			else
-				out << "\t\tetage1: " << "NULL" << endl;
-
-			if(cont.getEtage2()!= NULL)
-				out << "\t\tetage2: " << *cont.getEtage2() << endl;
-			else
-				out << "\t\tetage2: " << "NULL" << endl;
-		}
-
-
-		return out;
-	}
+	return out;
+}
 

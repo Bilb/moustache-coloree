@@ -22,7 +22,6 @@
 
 ColorClassProblem::ColorClassProblem(string& charpenteFile) {
 	if (charpenteFile.length() > 0) {
-		//resolve(charpenteFile);
 		buildProblem(charpenteFile);
 	}
 	else {
@@ -61,28 +60,18 @@ void ColorClassProblem::resolve(string charpente) {
 
 	// TODO : Traiter le dernier !!!
 	while(currentColorClassMaillon != NULL) {
-		/*cout << "=======================================================================================================" << endl;
-		cout << "===============================colorClassIndex : " << colorClassIndex
-				<< "========================================" << endl;
-		cout <<  "=======================================================================================================" << endl;
-		cout << "=======================================================================================================" << endl;
-		*/currentColorClass = currentColorClassMaillon->getObject();
+		currentColorClass = currentColorClassMaillon->getObject();
 
 
-		//cout << "current Color Classe: " << *currentColorClassMaillon->getObject() << endl;
 
 		Contrainte* currentConstraint;
 		loop = 0;
 		while(loop < nbSommets) {
-			//cout << endl << endl << "-------------loop : " << loop  << "-------------"<< endl << endl;
-
-
 			mustRestart = false;
 
 			currentConstraint = &(currentColorClass->getContraintes())[loop];
 
 
-			//cout << "currentConstraint: " << *currentConstraint << endl;
 			assert(currentConstraint != NULL);
 
 
@@ -106,7 +95,6 @@ void ColorClassProblem::resolve(string charpente) {
 						while(currentEtage1ListColorMaillon != NULL) {
 							if(!isDifferent(*currentColorClass, currentEtage1ListColorMaillon->getObject(),currentEtage2ListColorMaillon->getObject())) {
 								unsigned int search = getSomWithMaxRow(currentEtage1ListColorMaillon->getObject(),currentEtage2ListColorMaillon->getObject());
-								//cout << "calling new colorclass with: loop:" << loop << "somSearch" << search << " replaceSom:" << currentEtage2ListColorMaillon->getObject();
 								ColorClass * newColorClass = new ColorClass(rowToSommet,
 										sommetToRow,
 										nbSommets,
@@ -117,8 +105,6 @@ void ColorClassProblem::resolve(string charpente) {
 								colorClasses.insert(newColorClass, colorClassIndex);
 								ambiguous = true;
 								mustRestart = true;
-								//	cout << "              new colorclass added : : " << *newColorClass << endl;
-								//	cout << "===========================" <<endl;
 							}
 
 							currentEtage1ListColorMaillon = currentEtage1ListColorMaillon->getNext();
@@ -201,9 +187,7 @@ bool ColorClassProblem::isDifferent(ColorClass & currentColorClass, unsigned int
 
 
 void ColorClassProblem::buildProblem(string charpenteFile) {
-	/* actuellement c'est hardcodé ! */
-
-	nbSommets = 7;
+/*	nbSommets = 7;
 	rowToSommet[0] = 1;
 	rowToSommet[1] = 3;
 	rowToSommet[2] = 4;
@@ -274,25 +258,21 @@ void ColorClassProblem::buildProblem(string charpenteFile) {
 	}
 	colorClasses.pushBack(colorClasse);
 	cout << "---------END OF BUILDER--------------" <<endl;
+*/
 
 
 
+	problemType pb;
 
-	/*problemType pb;
-
-	//string source("7_ 1 [] 3 [1] 4 [1, 3] 2 [ 1, 3] 6 [2, 3] [4] 5 [4, 6] [1] 7 [ 1, 5] [2]");
 
 	if (parseFile(charpenteFile, pb)) {
-
-
-		std::cout << "Result: "  << pb.nbSommet << " row: " << pb.rows.at(0).number << " " << pb.rows.at(0).etage1;
 
 
 		nbSommets = pb.nbSommet;
 		ColorClass* colorClasse = new ColorClass(nbSommets);
 
-		*//* build ColorClass */
-		/*rowType row;
+		// build ColorClass
+		rowType row;
 		for(unsigned int indice = 0; indice < nbSommets ; indice++) {
 			row = pb.rows.at(indice);
 			Etage* etage1 = new Etage(nbSommets);
@@ -303,8 +283,6 @@ void ColorClassProblem::buildProblem(string charpenteFile) {
 
 			colorClasse->getContraintes()[indice].setParams(nbSommets,etage1, etage2);
 
-			cout << "adding conttrainte at : " << indice << " ," << colorClasse->getContraintes()[indice] << endl;
-
 			rowToSommet[indice] = row.number - 1;
 			sommetToRow[row.number - 1 ] = indice;
 		}
@@ -314,7 +292,7 @@ void ColorClassProblem::buildProblem(string charpenteFile) {
 		colorClasses.pushBack(colorClasse);
 
 	}
-*/
+
 }
 
 
