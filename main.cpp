@@ -51,7 +51,7 @@ int main(int argc, char* argv[]) {
 	pt::time_duration dur = end - start;
 
 
-	cout << "resolution took : " << dur.total_milliseconds() << " ms" << endl;
+	cout << "resolution took : " << dur.total_microseconds() << " micro seconde" << endl;
 
 	return 0;
 }

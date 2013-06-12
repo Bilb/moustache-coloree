@@ -7,6 +7,7 @@
 
 #include "../include/Etage.h"
 
+#define NDEBUG
 #include <assert.h>
 #include <iostream>
 

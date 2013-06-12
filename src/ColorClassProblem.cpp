@@ -12,6 +12,7 @@
 #include "../include/SimpleLinkList.h"
 #include "../skeletonParser.h"
 
+#define NDEBUG
 #include <assert.h>
 #include <string>
 
@@ -316,7 +317,7 @@ ostream& operator<<(ostream& out ,  ColorClassProblem& problem ) {
 	unsigned int indiceContrainte;
 	unsigned int indiceColorClasse = 0;
 
-	//out << "PROBLEM :nbSommet : " << problem.nbSommets << endl;
+	out << "PROBLEM :nbSommet : " << problem.nbSommets << endl;
 
 	/* affichage des rangs des sommets */
 	/*for(indiceContrainte = 0; indiceContrainte < problem.nbSommets ; ++indiceContrainte) {
