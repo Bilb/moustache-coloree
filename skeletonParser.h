@@ -25,6 +25,7 @@
 
 namespace qi = boost::spirit::qi;
 namespace spirit = boost::spirit;
+namespace ascii = boost::spirit::ascii;
 
 
 namespace boost { namespace spirit { namespace traits {
@@ -69,7 +70,7 @@ BOOST_FUSION_ADAPT_STRUCT(problemType, (unsigned int, nbSommet)(std::vector<rowT
 
 
 template<typename Iterator>
-struct row_parser : qi::grammar<Iterator, rowType(), qi::space_type>
+struct row_parser : qi::grammar<Iterator, rowType(), qi::blank_type>
 {
 	row_parser() : row_parser::base_type(start)
 	{
@@ -78,15 +79,15 @@ struct row_parser : qi::grammar<Iterator, rowType(), qi::space_type>
 		start = qi::int_ >> etage >> -etage;
 	}
 
-	qi::rule<Iterator, rowType(), qi::space_type> start;
-	qi::rule<Iterator, SimpleLinkList<unsigned int>(), qi::space_type> etage;
+	qi::rule<Iterator, rowType(), qi::blank_type> start;
+	qi::rule<Iterator, SimpleLinkList<unsigned int>(), qi::blank_type> etage;
 };
 
 
 
 
 template<typename Iterator>
-struct problem_parser : qi::grammar<Iterator,problemType(), qi::space_type >
+struct problem_parser : qi::grammar<Iterator,problemType(),ascii::blank_type>
 {
 
 	problem_parser() : problem_parser::base_type(start)
@@ -96,12 +97,13 @@ struct problem_parser : qi::grammar<Iterator,problemType(), qi::space_type >
 		using qi::eps;
 		using boost::phoenix::bind;
 
-		start = qi::int_ >> '_' >> +(row_parser);
+		start = qi::int_ >> qi::eol >> +(row);
+
 		//BOOST_SPIRIT_DEBUG_NODE(start);
 	}
 
-	qi::rule<Iterator, problemType(), qi::space_type> start;
-	row_parser<Iterator> row_parser;
+	qi::rule<Iterator, problemType(),ascii::blank_type> start;
+	row_parser<Iterator> row;
 };
 
 
@@ -112,7 +114,7 @@ bool parseFile(const std::string charpenteFile, problemType& pb)
 	typedef std::istream_iterator<char> base_iterator_type;
 	static const problem_parser<spirit::multi_pass<base_iterator_type> > p;
 	namespace spirit = boost::spirit;
-	using spirit::ascii::space;
+
 	using spirit::ascii::char_;
 	using spirit::qi::double_;
 	using spirit::qi::eol;
@@ -132,8 +134,8 @@ bool parseFile(const std::string charpenteFile, problemType& pb)
 
 
 	bool ok = spirit::qi::phrase_parse(first, last ,
-			p
-			,  qi::space
+			p,
+			ascii::space_type
 			, pb);
 
 	if (ok && first == last) {
