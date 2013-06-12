@@ -61,20 +61,20 @@ void ColorClassProblem::resolve(string charpente) {
 
 	// TODO : Traiter le dernier !!!
 	while(currentColorClassMaillon != NULL) {
-		cout << "=======================================================================================================" << endl;
+		/*cout << "=======================================================================================================" << endl;
 		cout << "===============================colorClassIndex : " << colorClassIndex
 				<< "========================================" << endl;
 		cout <<  "=======================================================================================================" << endl;
 		cout << "=======================================================================================================" << endl;
-		currentColorClass = currentColorClassMaillon->getObject();
+		*/currentColorClass = currentColorClassMaillon->getObject();
 
 
-		cout << "current Color Classe: " << *currentColorClassMaillon->getObject() << endl;
+		//cout << "current Color Classe: " << *currentColorClassMaillon->getObject() << endl;
 
 		Contrainte* currentConstraint;
 		loop = 0;
 		while(loop < nbSommets) {
-			cout << endl << endl << "-------------loop : " << loop  << "-------------"<< endl << endl;
+			//cout << endl << endl << "-------------loop : " << loop  << "-------------"<< endl << endl;
 
 
 			mustRestart = false;
@@ -82,7 +82,7 @@ void ColorClassProblem::resolve(string charpente) {
 			currentConstraint = &(currentColorClass->getContraintes())[loop];
 
 
-			cout << "currentConstraint: " << *currentConstraint << endl;
+			//cout << "currentConstraint: " << *currentConstraint << endl;
 			assert(currentConstraint != NULL);
 
 
@@ -203,7 +203,7 @@ bool ColorClassProblem::isDifferent(ColorClass & currentColorClass, unsigned int
 void ColorClassProblem::buildProblem(string charpenteFile) {
 	/* actuellement c'est hardcodé ! */
 
-/*	nbSommets = 7;
+	nbSommets = 7;
 	rowToSommet[0] = 1;
 	rowToSommet[1] = 3;
 	rowToSommet[2] = 4;
@@ -275,10 +275,10 @@ void ColorClassProblem::buildProblem(string charpenteFile) {
 	colorClasses.pushBack(colorClasse);
 	cout << "---------END OF BUILDER--------------" <<endl;
 
-*/
 
 
-	problemType pb;
+
+	/*problemType pb;
 
 	//string source("7_ 1 [] 3 [1] 4 [1, 3] 2 [ 1, 3] 6 [2, 3] [4] 5 [4, 6] [1] 7 [ 1, 5] [2]");
 
@@ -291,8 +291,8 @@ void ColorClassProblem::buildProblem(string charpenteFile) {
 		nbSommets = pb.nbSommet;
 		ColorClass* colorClasse = new ColorClass(nbSommets);
 
-		/* build ColorClass */
-		rowType row;
+		*//* build ColorClass */
+		/*rowType row;
 		for(unsigned int indice = 0; indice < nbSommets ; indice++) {
 			row = pb.rows.at(indice);
 			Etage* etage1 = new Etage(nbSommets);
@@ -314,7 +314,7 @@ void ColorClassProblem::buildProblem(string charpenteFile) {
 		colorClasses.pushBack(colorClasse);
 
 	}
-
+*/
 }
 
 
@@ -338,19 +338,19 @@ ostream& operator<<(ostream& out ,  ColorClassProblem& problem ) {
 	unsigned int indiceContrainte;
 	unsigned int indiceColorClasse = 0;
 
-	out << "PROBLEM :nbSommet : " << problem.nbSommets << endl;
+	//out << "PROBLEM :nbSommet : " << problem.nbSommets << endl;
 
 	/* affichage des rangs des sommets */
-	for(indiceContrainte = 0; indiceContrainte < problem.nbSommets ; ++indiceContrainte) {
+	/*for(indiceContrainte = 0; indiceContrainte < problem.nbSommets ; ++indiceContrainte) {
 		out << "\trow[" << indiceContrainte << "] :" << problem.rowToSommet.at(indiceContrainte) << endl;
 	}
 	out << endl << endl;
-
+*/
 	/* affichage des sommets vers les indexs */
-	for(indiceContrainte = 0; indiceContrainte < problem.nbSommets ; ++indiceContrainte) {
+	/*for(indiceContrainte = 0; indiceContrainte < problem.nbSommets ; ++indiceContrainte) {
 		out << "\trow[" << indiceContrainte << "] :" << problem.sommetToRow.at(indiceContrainte) << endl;
 	}
-
+*/
 	/* affichage de toutes les contraintes */
 	Maillon<ColorClass*>* currentColorClassMaillon = problem.colorClasses.begin();
 	// TODO : Traiter le dernier !!!

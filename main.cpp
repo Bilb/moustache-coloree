@@ -38,7 +38,7 @@ int main(int argc, char* argv[]) {
 	string test("./test.txt");
 	ColorClassProblem problem(test);
 
-	cout << "problem INITIAL" << problem << endl;
+	//cout << "problem INITIAL" << problem << endl;
 	problem.resolve(test);
 
 	cout << "problem RESOLVED" << problem << endl;

@@ -63,12 +63,12 @@ void Contrainte::setByMagic(map<unsigned int, unsigned int> &rowToSommet, map<un
 
 		unsigned int rowSearch = sommetToRow[somSearch];
 
-		cout << "MAGICK : somSearch : " << somSearch << " rowSearch" << rowSearch << " indice:" << indice << endl;
+		//cout << "MAGICK : somSearch : " << somSearch << " rowSearch" << rowSearch << " indice:" << indice << endl;
 
 		if(indice == rowSearch) {
 			//cas d'égalité : mettre une égalité
 			egalite = somReplace;
-			cout << "egalite mise a " << egalite << endl;
+			//cout << "egalite mise a " << egalite << endl;
 			if(etage1)
 				delete etage1;
 			if(etage2)
@@ -80,15 +80,15 @@ void Contrainte::setByMagic(map<unsigned int, unsigned int> &rowToSommet, map<un
 		}
 		else if( indice > rowSearch) {
 
-			cout << "magick : copie MAGGICK des deux etages" << endl;
+			//cout << "magick : copie MAGGICK des deux etages" << endl;
 
 			/* etage1 */
 			// parcourir la liste de etage1, si égale à search, faire un set(replace) (et mettre un bool à true), sinon faire un set de celui trouvé dans la liste
 			Etage* etg1Src = src.getEtage1();
 			Etage* etg2Src = src.getEtage2();
 
-			cout << "etage1 to copy:"  << *etg1Src << endl;
-			cout << "etage2 to copy:"  << *etg2Src << endl;
+			//cout << "etage1 to copy:"  << *etg1Src << endl;
+			//cout << "etage2 to copy:"  << *etg2Src << endl;
 
 
 			assert(etg1Src != NULL);
@@ -98,7 +98,7 @@ void Contrainte::setByMagic(map<unsigned int, unsigned int> &rowToSommet, map<un
 			Maillon<unsigned int> * current = etg1Src->getListColor().begin();
 			cout << "" << endl;
 			while(current != NULL) {
-				cout << "MAGICK : ETAGE1 search: " << somSearch << " current: "<< current->getObject() << " replace:" << somReplace << endl;
+				//cout << "MAGICK : ETAGE1 search: " << somSearch << " current: "<< current->getObject() << " replace:" << somReplace << endl;
 				if(current->getObject() == somSearch) {
 
 					etage1->set(somReplace);
@@ -118,7 +118,7 @@ void Contrainte::setByMagic(map<unsigned int, unsigned int> &rowToSommet, map<un
 			// sinon, ajouter celui trouver dans l'etage2
 			current = etg2Src->getListColor().begin();
 			while(current != NULL) {
-				cout << "MAGICK : ETAGE2 search: " << somSearch << " current: "<< current->getObject() << " replace:" << somReplace << endl;
+				//cout << "MAGICK : ETAGE2 search: " << somSearch << " current: "<< current->getObject() << " replace:" << somReplace << endl;
 				if(current->getObject() == somSearch && !isSetInEtage1) {
 					etage2->set(somReplace);
 				}
@@ -131,13 +131,13 @@ void Contrainte::setByMagic(map<unsigned int, unsigned int> &rowToSommet, map<un
 
 		}
 		else {
-			cout << "magick : copie simple des deux etages" << endl;
+			//cout << "magick : copie simple des deux etages" << endl;
 
 			Etage* etg1Src = src.getEtage1();
 			Etage* etg2Src = src.getEtage2();
 
-			cout << "etage1 to copy:"  << *etg1Src << endl;
-			cout << "etage2 to copy:"  << *etg2Src << endl;
+			//	cout << "etage1 to copy:"  << *etg1Src << endl;
+			//	cout << "etage2 to copy:"  << *etg2Src << endl;
 
 			assert(etg1Src != NULL);
 			assert(etg2Src != NULL);
@@ -162,9 +162,9 @@ void Contrainte::setByMagic(map<unsigned int, unsigned int> &rowToSommet, map<un
 		}
 	}
 
-		cout << "en sortie du constructeur magic, on a la nouvelle contrainte qui vaut : " << endl;
-		cout << *this << endl;
-		cout << "----------------------------------------------------------------------" << endl;
+	//	cout << "en sortie du constructeur magic, on a la nouvelle contrainte qui vaut : " << endl;
+	//cout << *this << endl;
+	//	cout << "----------------------------------------------------------------------" << endl;
 
 	}
 
