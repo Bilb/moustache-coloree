@@ -151,8 +151,3 @@ bool parseFile(const std::string charpenteFile, problemType& pb)
 	return false;
 }
 
-
-//std::string::const_iterator f(input.begin()), l(input.end());
-//bool ok = qi::phrase_parse(f, l, p, qi::space, pb);
-
-

@@ -12,12 +12,15 @@
 #include <boost/spirit/include/phoenix_bind.hpp>
 #include <boost/spirit/include/karma_eps.hpp>
 
- /* fusion */
+/* fusion */
 #include <boost/fusion/adapted/adt/adapt_adt.hpp>
 #include <boost/fusion/include/adapt_adt.hpp>
+#include <boost/date_time/local_time/local_time.hpp>
+
 
 #include <string>
 #include <iostream>
+
 
 #include "include/SimpleLinkList.h"
 #include "include/ColorClass.h"
@@ -27,10 +30,11 @@
 
 namespace qi = boost::spirit::qi;
 namespace fusion = boost::fusion;
+namespace pt = boost::posix_time;
 
 
 int main(int argc, char* argv[]) {
-
+	pt::ptime start = pt::microsec_clock::universal_time();
 	string test("./test.txt");
 	ColorClassProblem problem(test);
 
@@ -39,6 +43,13 @@ int main(int argc, char* argv[]) {
 
 	cout << "problem RESOLVED" << problem << endl;
 
+
+
+	pt::ptime end = pt::microsec_clock::universal_time();
+	pt::time_duration dur = end - start;
+
+
+	cout << "resolution took : " << dur.total_milliseconds() << " ms" << endl;
 
 	return 0;
 }
