@@ -70,7 +70,7 @@ BOOST_FUSION_ADAPT_STRUCT(problemType, (unsigned int, nbSommet)(std::vector<rowT
 
 
 template<typename Iterator>
-struct row_parser : qi::grammar<Iterator, rowType(), qi::blank_type>
+struct row_parser : qi::grammar<Iterator, rowType(), qi::space_type>
 {
 	row_parser() : row_parser::base_type(start)
 	{
@@ -79,15 +79,15 @@ struct row_parser : qi::grammar<Iterator, rowType(), qi::blank_type>
 		start = qi::int_ >> etage >> -etage;
 	}
 
-	qi::rule<Iterator, rowType(), qi::blank_type> start;
-	qi::rule<Iterator, SimpleLinkList<unsigned int>(), qi::blank_type> etage;
+	qi::rule<Iterator, rowType(), qi::space_type> start;
+	qi::rule<Iterator, SimpleLinkList<unsigned int>(), qi::space_type> etage;
 };
 
 
 
 
 template<typename Iterator>
-struct problem_parser : qi::grammar<Iterator,problemType(),ascii::blank_type>
+struct problem_parser : qi::grammar<Iterator,problemType(),qi::space_type>
 {
 
 	problem_parser() : problem_parser::base_type(start)
@@ -96,13 +96,14 @@ struct problem_parser : qi::grammar<Iterator,problemType(),ascii::blank_type>
 		using qi::_a;
 		using qi::eps;
 		using boost::phoenix::bind;
+		using qi::lit;
 
-		start = qi::int_ >> qi::eol >> +(row);
+		start = qi::int_ >> lit('_') >> +(row);
 
 		//BOOST_SPIRIT_DEBUG_NODE(start);
 	}
 
-	qi::rule<Iterator, problemType(),ascii::blank_type> start;
+	qi::rule<Iterator, problemType(),qi::space_type> start;
 	row_parser<Iterator> row;
 };
 
@@ -135,8 +136,8 @@ bool parseFile(const std::string charpenteFile, problemType& pb)
 
 	bool ok = spirit::qi::phrase_parse(first, last ,
 			p,
-			ascii::space_type
-			, pb);
+			qi::space,
+			pb);
 
 	if (ok && first == last) {
 		return true;
