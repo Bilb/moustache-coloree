@@ -37,7 +37,7 @@ ColorClassProblem::~ColorClassProblem() {
 }
 
 
-void ColorClassProblem::resolve(string charpente) {
+void ColorClassProblem::resolve() {
 	unsigned int colorClassIndex = 0;
 	unsigned int loop = 0;
 	bool ambiguous;

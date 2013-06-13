@@ -18,6 +18,9 @@ using namespace std;
 template <typename T>
 class SimpleLinkList {
 private:
+	/**
+	 * tête de cette liste
+	 */
 	Maillon<T>* head;
 public:
 	SimpleLinkList();
@@ -26,7 +29,16 @@ public:
 	Maillon<T>* end();
 	void pushBack(T t);
 	void pushBack(T* t);
+
+	/**
+	 * Insère l'élément elm à l'indice indice dans cette liste.
+	 *
+	 */
 	void insert(T elm, unsigned int indice);
+
+	/**
+	 * Supprime toutes les occurences de l'object values dans cette liste
+	 */
 	void removeAllOccurences(T value);
 
 
@@ -81,7 +93,13 @@ SimpleLinkList<T>::SimpleLinkList() {
 
 template<typename T>
 SimpleLinkList<T>::~SimpleLinkList() {
-	// TODO Auto-generated destructor stub
+	Maillon<T> * current = begin();
+	Maillon<T> * last = current;
+	while(current != NULL) {
+		last  = current;
+		current = current->getNext();
+		delete last;
+	}
 }
 
 template<typename T>
@@ -89,6 +107,7 @@ Maillon<T>* SimpleLinkList<T>::begin() const  {
 	return head;
 }
 
+//todo non nécessaire je crois
 template<typename T>
 Maillon<T>* SimpleLinkList<T>::end() {
 	Maillon<T>* maillon = head;
@@ -166,12 +185,6 @@ void SimpleLinkList<T>::removeAllOccurences(T value) {
 		}
 	}
 }
-
-
-
-
-
-
 
 
 #endif /* SIMPLELINKLIST_H_ */

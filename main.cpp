@@ -39,7 +39,7 @@ int main(int argc, char* argv[]) {
 	pt::ptime start = pt::microsec_clock::universal_time();
 	ColorClassProblem problem(test);
 	//cout << "problem INITIAL" << problem << endl;
-	problem.resolve(test);
+	problem.resolve();
 
 	pt::ptime end = pt::microsec_clock::universal_time();
 

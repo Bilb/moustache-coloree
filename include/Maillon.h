@@ -15,6 +15,9 @@
 
 using namespace std;
 
+/**
+ * Maillon composant une SimpleLinkList
+ */
 template<typename T>
 class Maillon {
 private:

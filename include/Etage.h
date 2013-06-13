@@ -15,18 +15,37 @@
 
 
 
+/**
+ * Un étage est un ensemble de numéro de sommet
+ */
 class Etage {
 private:
+	/**
+	 * Nombre de sommet de cet étage
+	 */
 	unsigned int nbSommet;
 
+	/**
+	 * dynamic_bitset permettant un acccès direct pour tester si un sommet est un interdit ou non
+	 */
 	boost::dynamic_bitset<> bitsetColor;
+
+	/**
+	 * Liste des sommets contenu dans cet étage
+	 */
 	SimpleLinkList<unsigned int> listColor;
 
 public:
+	/**
+	 * Construit et alloue l'espace nécessaire pour stocker nbSommet sommet dans cet étage
+	 */
 	Etage(unsigned int nbSommet_);
 
 	SimpleLinkList<unsigned int> getListColor() const { return listColor;}
 
+	/**
+	 * "Copie" la liste list dans cet étage.
+	 */
 	void setFromList(SimpleLinkList<unsigned int> list);
 
 
