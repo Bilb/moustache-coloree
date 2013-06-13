@@ -6,7 +6,7 @@
  */
 
 
-#define BOOST_SPIRIT_DEBUG
+//#define BOOST_SPIRIT_DEBUG
 #include <boost/fusion/adapted.hpp>
 #include <boost/spirit/include/qi.hpp>
 #include <boost/spirit/include/phoenix.hpp>
@@ -16,6 +16,7 @@
 #include <boost/spirit/include/support_multi_pass.hpp>
 
 #include <vector>
+#include <string>
 #include <fstream>
 
 #include  "include/Maillon.h"
@@ -59,7 +60,6 @@ struct problemType
 {
 	unsigned int nbSommet;
 	std::vector<rowType> rows;
-	//SimpleLinkList<unsigned int> list1, list2;
 };
 
 
@@ -70,40 +70,36 @@ BOOST_FUSION_ADAPT_STRUCT(problemType, (unsigned int, nbSommet)(std::vector<rowT
 
 
 template<typename Iterator>
-struct row_parser : qi::grammar<Iterator, rowType(), qi::space_type>
+struct row_parser : qi::grammar<Iterator, rowType() ,qi::blank_type >
 {
 	row_parser() : row_parser::base_type(start)
 	{
-
-		etage  = '[' >> -(qi::int_ % ',') >> ']';
-		start = qi::int_ >> etage >> -etage;
+		using namespace qi;
+		etage  = '[' >> -(int_ % ',') >> ']';
+		start = int_ >> etage >> -etage;
+		BOOST_SPIRIT_DEBUG_NODES((start));
 	}
 
-	qi::rule<Iterator, rowType(), qi::space_type> start;
-	qi::rule<Iterator, SimpleLinkList<unsigned int>(), qi::space_type> etage;
+	qi::rule<Iterator, rowType() ,qi::blank_type  > start;
+	qi::rule<Iterator, SimpleLinkList<unsigned int>(),qi::blank_type  > etage;
 };
 
 
 
 
 template<typename Iterator>
-struct problem_parser : qi::grammar<Iterator,problemType(),qi::space_type>
+struct problem_parser : qi::grammar<Iterator,problemType(),qi::blank_type >
 {
 
-	problem_parser() : problem_parser::base_type(start)
+	problem_parser() : problem_parser::base_type(problem)
 	{
-		using qi::_val;
-		using qi::_a;
-		using qi::eps;
-		using boost::phoenix::bind;
-		using qi::lit;
+		using namespace qi;
+		problem = "Ordre" >> int_ >> '_' >> +row;
 
-		start = qi::int_ >> lit('_') >> +(row);
-
-		//BOOST_SPIRIT_DEBUG_NODE(start);
+		BOOST_SPIRIT_DEBUG_NODES((problem));
 	}
 
-	qi::rule<Iterator, problemType(),qi::space_type> start;
+	qi::rule<Iterator, problemType(), qi::blank_type > problem;
 	row_parser<Iterator> row;
 };
 
@@ -134,10 +130,30 @@ bool parseFile(const std::string charpenteFile, problemType& pb)
 	spirit::multi_pass<base_iterator_type> last = spirit::make_default_multi_pass(base_iterator_type());
 
 
-	bool ok = spirit::qi::phrase_parse(first, last ,
+/*	bool ok = spirit::qi::phrase_parse(first, last ,
 			p,
-			qi::space,
+			qi::blank,
 			pb);
+*/
+
+	/*const std::string input =
+			"Ordre 7\n"
+			"1 [1] [1,2]\n"
+			"3 [1]\n"
+			"4 [1, 3]\n"
+			"2 [1, 3]\n"
+			"6 [2, 3] [4]\n"
+			"5 [4, 6] [1]\n"
+			"7 [1, 5] [2]\n";
+
+
+	std::string::const_iterator first(input.begin()), last(input.end());
+
+	problem_parser<std::string::const_iterator> p;
+	//problemType pb;
+*/
+	bool ok = qi::phrase_parse(first, last, p, qi::blank, pb);
+
 
 	if (ok && first == last) {
 		return true;

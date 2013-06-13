@@ -34,10 +34,10 @@ namespace pt = boost::posix_time;
 
 
 int main(int argc, char* argv[]) {
-	pt::ptime start = pt::microsec_clock::universal_time();
 	string test("./test.txt");
-	ColorClassProblem problem(test);
 
+	pt::ptime start = pt::microsec_clock::universal_time();
+	ColorClassProblem problem(test);
 	//cout << "problem INITIAL" << problem << endl;
 	problem.resolve(test);
 
@@ -46,12 +46,8 @@ int main(int argc, char* argv[]) {
 	cout << "problem RESOLVED" << problem << endl;
 
 
-
-
 	pt::time_duration dur = end - start;
-
-
-	cout << "resolution took : " << dur.total_microseconds() << " micro seconde" << endl;
+	cout << "resolution took : " << dur.total_microseconds() << " micro secondes" << endl;
 
 	return 0;
 }
