@@ -51,6 +51,26 @@ public:
 
 	    	return out;
 	    }
+
+	friend ostream& operator<<(ostream& out, const SimpleLinkList<T>& list)
+		    {
+				Maillon<T> * current = list.begin();
+
+				//std::string str = "[ ";
+				out << "[ ";
+				while(current != NULL) {
+
+					out << boost::lexical_cast<string>( current->getObject() );
+					if(current->getNext() != NULL) {
+						out << ", ";
+					}
+
+					current = current->getNext();
+				}
+				out << "]";
+
+		    	return out;
+		    }
 };
 
 
