@@ -76,7 +76,7 @@ struct row_parser : qi::grammar<Iterator, rowType() ,qi::blank_type >
 	{
 		using namespace qi;
 		etage  = '[' >> -(int_ % ',') >> ']';
-		start = int_ >> etage >> -etage;
+		start = int_ >> etage >> -etage >> eol;
 		BOOST_SPIRIT_DEBUG_NODES((start));
 	}
 
@@ -94,7 +94,7 @@ struct problem_parser : qi::grammar<Iterator,problemType(),qi::blank_type >
 	problem_parser() : problem_parser::base_type(problem)
 	{
 		using namespace qi;
-		problem = "Ordre" >> int_ >> '_' >> +row;
+		problem = "Ordre" >> int_ >> eol >> +row;
 
 		BOOST_SPIRIT_DEBUG_NODES((problem));
 	}
@@ -118,6 +118,7 @@ bool parseFile(const std::string charpenteFile, problemType& pb)
 
 	//std::ifstream in("D:\\multi_pass.txt");
 	std::ifstream in(charpenteFile.c_str());
+	in.unsetf(std::ios::skipws);
 	if (!in.is_open()) {
 		std::cout << "Could not open input file: '" << charpenteFile << "'" <<
 				std::endl;
@@ -129,29 +130,6 @@ bool parseFile(const std::string charpenteFile, problemType& pb)
 	spirit::multi_pass<base_iterator_type> first = spirit::make_default_multi_pass(base_iterator_type(in));
 	spirit::multi_pass<base_iterator_type> last = spirit::make_default_multi_pass(base_iterator_type());
 
-
-/*	bool ok = spirit::qi::phrase_parse(first, last ,
-			p,
-			qi::blank,
-			pb);
-*/
-
-	/*const std::string input =
-			"Ordre 7\n"
-			"1 [1] [1,2]\n"
-			"3 [1]\n"
-			"4 [1, 3]\n"
-			"2 [1, 3]\n"
-			"6 [2, 3] [4]\n"
-			"5 [4, 6] [1]\n"
-			"7 [1, 5] [2]\n";
-
-
-	std::string::const_iterator first(input.begin()), last(input.end());
-
-	problem_parser<std::string::const_iterator> p;
-	//problemType pb;
-*/
 	bool ok = qi::phrase_parse(first, last, p, qi::blank, pb);
 
 
