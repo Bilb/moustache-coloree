@@ -14,10 +14,9 @@
 
 *.d
 
-*.mk
 
 Debug/moustache-coloree
 
-Debug/makefile
+Release/moustache-coloree
 
 .cproject
