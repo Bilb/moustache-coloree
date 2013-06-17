@@ -93,13 +93,13 @@ SimpleLinkList<T>::SimpleLinkList() {
 
 template<typename T>
 SimpleLinkList<T>::~SimpleLinkList() {
-	Maillon<T> * current = begin();
+/*	Maillon<T> * current = begin();
 	Maillon<T> * last = current;
 	while(current != NULL) {
 		last  = current;
 		current = current->getNext();
 		delete last;
-	}
+	}*/
 }
 
 template<typename T>

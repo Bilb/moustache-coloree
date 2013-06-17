@@ -4,17 +4,26 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
-../main.cpp 
+../src/ColorClass.cpp \
+../src/ColorClassProblem.cpp \
+../src/Contrainte.cpp \
+../src/Etage.cpp 
 
 OBJS += \
-./main.o 
+./src/ColorClass.o \
+./src/ColorClassProblem.o \
+./src/Contrainte.o \
+./src/Etage.o 
 
 CPP_DEPS += \
-./main.d 
+./src/ColorClass.d \
+./src/ColorClassProblem.d \
+./src/Contrainte.d \
+./src/Etage.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
-%.o: ../%.cpp
+src/%.o: ../src/%.cpp
 	@echo 'Building file: $<'
 	@echo 'Invoking: GCC C++ Compiler'
 	g++ -I"/home/audric/GI04/LO45/Projet/moustache-coloree" -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o "$@" "$<"
