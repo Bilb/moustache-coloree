@@ -34,10 +34,21 @@ namespace pt = boost::posix_time;
 
 
 int main(int argc, char* argv[]) {
-	string test("./test.txt");
+	string charpenteFile;
+	if(argc == 2) {
+		charpenteFile = argv[1];
+	}
+	else if(argc == 1){
+		charpenteFile = "./test.txt";
+	}
+	else {
+		std::cout << "usage : " << argv[0] << " <charpenteFile>" << std::endl;
+		exit(1);
+	}
+	std::cout << "using charpenteFile" << charpenteFile << std::endl;
 
 	pt::ptime start = pt::microsec_clock::universal_time();
-	ColorClassProblem problem(test);
+	ColorClassProblem problem(charpenteFile);
 	//cout << "problem INITIAL" << problem << endl;
 	problem.resolve();
 
