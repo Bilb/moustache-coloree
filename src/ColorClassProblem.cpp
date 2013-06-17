@@ -33,7 +33,6 @@ ColorClassProblem::ColorClassProblem(string& charpenteFile) {
 }
 
 ColorClassProblem::~ColorClassProblem() {
-	// TODO Auto-generated destructor stub
 }
 
 
@@ -59,7 +58,6 @@ void ColorClassProblem::resolve() {
 
 
 
-	// TODO : Traiter le dernier !!!
 	while(currentColorClassMaillon != NULL) {
 		currentColorClass = currentColorClassMaillon->getObject();
 
@@ -188,80 +186,6 @@ bool ColorClassProblem::isDifferent(ColorClass & currentColorClass, unsigned int
 
 
 void ColorClassProblem::buildProblem(string charpenteFile) {
-/*	nbSommets = 7;
-	rowToSommet[0] = 1;
-	rowToSommet[1] = 3;
-	rowToSommet[2] = 4;
-	rowToSommet[3] = 2;
-	rowToSommet[4] = 6;
-	rowToSommet[5] = 5;
-	rowToSommet[6] = 7;
-
-	sommetToRow[1-1] = 0;
-	sommetToRow[3-1] = 1;
-	sommetToRow[4-1] = 2;
-	sommetToRow[2-1] = 3;
-	sommetToRow[6-1] = 4;
-	sommetToRow[5-1] = 5;
-	sommetToRow[7-1] = 6;
-
-
-	cout << "---------building problem --------------" <<endl;
-	ColorClass* colorClasse = new ColorClass(nbSommets);
-
-	//cout << "---------colorClasse* " << colorClasse << "--------------" <<endl;
-	unsigned int indice;
-	for(indice = 0; indice < nbSommets ; indice++) {
-		//cout << "\n\n=========setting nbSommet to " << nbSommets << " for contrainte nb:" << indice << endl;
-		//colorClasse.getContraintes()[indice].setNbSommet(nbSommets);
-
-		Etage* etage1 = new Etage(nbSommets);
-		Etage* etage2 = new Etage(nbSommets);
-		switch(indice) {
-		case 0:
-
-			break;
-		case 1:
-			etage1->set(0);
-			break;
-
-		case 2:
-			etage1->set(0);
-			etage1->set(2);
-			break;
-		case 3:
-			etage1->set(0);
-			etage1->set(2);
-			break;
-		case 4:
-			etage1->set(1);
-			etage1->set(2);
-			etage2->set(3);
-			break;
-		case 5:
-			etage1->set(3);
-			etage1->set(5);
-			etage2->set(0);
-			break;
-		case 6:
-			etage1->set(0);
-			etage1->set(4);
-			etage2->set(1);
-			break;
-
-		default:
-			break;
-		}
-
-
-		colorClasse->getContraintes()[indice].setParams(nbSommets,etage1, etage2);
-
-	}
-	colorClasses.pushBack(colorClasse);
-	cout << "---------END OF BUILDER--------------" <<endl;
-*/
-
-
 
 	problemType pb;
 
@@ -314,25 +238,13 @@ unsigned int ColorClassProblem::getSomWithMaxRow(unsigned int som1, unsigned int
 
 
 ostream& operator<<(ostream& out ,  ColorClassProblem& problem ) {
-	unsigned int indiceContrainte;
 	unsigned int indiceColorClasse = 0;
 
-	out << "PROBLEM :nbSommet : " << problem.nbSommets << endl;
+	out << endl << "PROBLEM :nbSommet : " << problem.nbSommets << endl;
 
-	/* affichage des rangs des sommets */
-	/*for(indiceContrainte = 0; indiceContrainte < problem.nbSommets ; ++indiceContrainte) {
-		out << "\trow[" << indiceContrainte << "] :" << problem.rowToSommet.at(indiceContrainte) << endl;
-	}
-	out << endl << endl;
-*/
-	/* affichage des sommets vers les indexs */
-	/*for(indiceContrainte = 0; indiceContrainte < problem.nbSommets ; ++indiceContrainte) {
-		out << "\trow[" << indiceContrainte << "] :" << problem.sommetToRow.at(indiceContrainte) << endl;
-	}
-*/
+	
 	/* affichage de toutes les contraintes */
 	Maillon<ColorClass*>* currentColorClassMaillon = problem.colorClasses.begin();
-	// TODO : Traiter le dernier !!!
 	cout << endl <<endl <<endl <<endl <<endl;
 	while(currentColorClassMaillon != NULL) {
 		out << "ColorClasse Num " << indiceColorClasse << ": " <<endl;
@@ -340,7 +252,6 @@ ostream& operator<<(ostream& out ,  ColorClassProblem& problem ) {
 		currentColorClassMaillon = currentColorClassMaillon->getNext();
 		indiceColorClasse++;
 	}
-	cout << endl <<endl <<endl <<endl <<endl;
-
+	
 	return out;
 }

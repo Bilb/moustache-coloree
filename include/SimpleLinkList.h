@@ -93,7 +93,7 @@ SimpleLinkList<T>::SimpleLinkList() {
 
 template<typename T>
 SimpleLinkList<T>::~SimpleLinkList() {
-/*	Maillon<T> * current = begin();
+	/*Maillon<T> * current = begin();
 	Maillon<T> * last = current;
 	while(current != NULL) {
 		last  = current;
@@ -107,7 +107,7 @@ Maillon<T>* SimpleLinkList<T>::begin() const  {
 	return head;
 }
 
-//todo non nécessaire je crois
+
 template<typename T>
 Maillon<T>* SimpleLinkList<T>::end() {
 	Maillon<T>* maillon = head;

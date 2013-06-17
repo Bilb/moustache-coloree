@@ -19,23 +19,18 @@ listColor()
 }
 
 Etage::~Etage() {
-	// TODO Auto-generated destructor stub
 }
 
 
 void Etage::set(unsigned int indice) {
 
-	//cout << "trying to set indice: "<< indice << endl;
 	assert(indice < nbSommet);
 
 
-	//cout << bitsetColor << endl;
 	if(!bitsetColor[indice]) {
-		//	cout << "not already set" << endl;
 		bitsetColor.set(indice);
 		listColor.pushBack(indice);
 	}
-	//cout << "sortie set" << endl;
 }
 
 
@@ -59,7 +54,6 @@ void Etage::reset(unsigned int indice) {
 
 
 void Etage::setFromList(SimpleLinkList<unsigned int> list) {
-	//listColor = list;
 	Maillon<unsigned int>* current = list.begin();
 	while(current != NULL) {
 		set(current->getObject() - 1);
@@ -70,6 +64,5 @@ void Etage::setFromList(SimpleLinkList<unsigned int> list) {
 
 ostream& operator<<(ostream& out , const Etage& etage ) {
 	out << "nbSommets: " << etage.nbSommet << " values:" << etage.bitsetColor;
-	//etage.getListColor().print();
 	return out;
 }

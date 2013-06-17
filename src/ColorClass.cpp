@@ -38,7 +38,6 @@ ColorClass::ColorClass(map<unsigned int, unsigned int> &rowToSommet, map<unsigne
 	unsigned int indice;
 
 	for(indice = 0; indice < nbSommet ; ++indice) {
-		//cout << "+++++++++++++++++++++++++ setting by magic copy " << indice <<endl;
 		contraintes[indice].setByMagic(rowToSommet, sommetToRow, nbSommet,indice, src.contraintes[indice], somSearch, somReplace);
 	}
 }

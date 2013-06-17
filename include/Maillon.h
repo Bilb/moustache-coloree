@@ -48,7 +48,6 @@ Maillon<T>::Maillon(T elem) {
 
 template <typename T>
 Maillon<T>::~Maillon() {
-	// TODO Auto-generated destructor stub
 }
 
 template<typename T>
